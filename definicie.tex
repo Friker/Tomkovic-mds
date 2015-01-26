@@ -1,0 +1,117 @@
+
+\chapter{Definície}\label{chap:def}
+
+V tejto kapitole sme zaviedli niektoré pojmy, s ktorými sa budeme stretávať 
+počas nasledujúcich kapitol. Sú to prevažne pojmy z teórie grafov. Keďže 
+väčšina článkov, ktorými sme sa zaoberali v ďalších častiach je anglického 
+pôvodu, rozhodli sme sa pre značenie uprednostniť knihu Graph Theory 
+\citep{diestel} pred knihou Grafové algoritmy \citep{plesnik}. 
+
+Základným pojmom je pre nás množina, čo je súbor navzájom rôznych objektov. 
+Množinu prirodzených čísel vrátane nuly označujeme $\mnn$. Množinu celých 
+čísel označujeme $\mnz$. Množinu reálnych čísel $\mnr$. Pre reálne číslo 
+$x$ označujeme hornú celú časť $\lceil x\rceil$ a označuje najmenšie celé 
+číslo väčšie alebo rovné ako $x$. Podobne dolnú celú časť označujeme 
+$\lfloor x\rfloor$ a označuje najväčšie celé číslo menšie alebo rovné ako $x$. 
+Základ logaritmov napísaných ako "$\log$" je 2 a základ logaritmov napísaných 
+ako "$\ln$" je $\eul$. Množina $\mathcal = \{A_1, \ldots, A_k\}$ navzájom 
+disjunktných podmnožín množina $A$ je \emph{rozdelenie} ak 
+$A = \bigcup_{i=1}^{k} A_i$ a všetky $i$ platí, že $A_i = \emptyset$.
+
+\section{Grafy}
+
+Graf $G = (V, E)$ je usporiadaná dvojica množiny vrcholov a množiny hrán, ktorá 
+má následujúce vlastnosti: 
+\begin{itemize}
+	\item $V \cap E = \emptyset$ (hrany a vrcholy sú rozlíšiteľné)
+	\item $E \subseteq\left\{ \left\{ u, v\right\} : u \neq v; u, v \in V\right\} $ 
+		(hrana spája dva vrcholy)
+\end{itemize}
+
+Graf sa zvyčajne znázorňuje nakreslením bodov pre každý vrchol a čiar medzi 
+dvoma bodmi tam, kde existuje hrana. Rozmiestenie bodov a čiar nemá význam. 
+
+O grafe s množinou vrcholov $V$ hovoríme, že je grafom \emph{na} $V$. 
+\emph{Množina 
+vrcholov grafu} $G$ je označovaná $V(G)$ a to aj v prípade, kedy graf $G$ má za 
+množinu vrcholov inú množinu ako $V$. Napríklad, pre graf $H = (W, F)$ 
+označujeme množinou vrcholov $V(H)$ a platí $V(H) = W$. Podobne označujeme 
+\emph{množinu hrán grafu} $E(G)$ (v hore uvedenom príklade platí $E(H) = F$). 
+Pre jednoduchosť hovoríme, že vrchol (hrana) patrí grafu a nie množine vrcholov 
+(hrán) grafu a preto sa občas vyskytuje označenie $v \in G$ a nie $v \in V(G)$. 
+
+\emph{Rád grafu} je počet vrcholov v grafe a označujeme ho ako $|G|$.
+\emph{Prázdny graf} $(\emptyset, \emptyset )$ označujeme $\emptyset$. Grafy 
+rádu $0$ alebo $1$ sa označujeme ako \emph{triviálne}.
+
+Vrchol $v$ je incidentný s hranou $e$ ak platí $v \in e$. Hranu $\{x, y\}$ 
+jednoduchšie označujeme ako $xy$. \emph{Hranami} $X-Y$ označujeme množinu 
+hrán $E(X,Y) = \left\{ \left\{ x, y\right\} : x \in X, y \in Y\right\} $. 
+Namiesto $E(\{x\},Y)$ píšeme $E(x,Y)$ a podobne aj namiesto $E(X,\{y\})$ 
+píšeme $E(X,y)$. s
+Zápisom $E(v)$ označujeme $E(v, V(G))$ a hovoríme o \emph{hranách vrchola} $v$. 
+
+Dva vrcholy $x, y$ grafu $G$ sú \emph{susedia}, ak existuje hrana $xy$ v grafe 
+$G$. Dve hrany $e \neq f$ sú susedné, ak majú spoločný jeden vrchol. Ak sú 
+všetky vrcholy v grafe navzájom susedné, graf je \emph{kompletný}. Kompletný 
+graf s $n$ vrcholmi označujeme $K^n$.
+
+Majme dva grafy $G = (V,E)$ a $G' = (V', E')$. Potom $G \cup G' := (V \cup V', 
+E \cup E')$. Podobne $G \cap G' := (V \cap V', E \cap E')$. Ak platí $G \cap G' 
+= \emptyset$ tak hovoríme, že grafy sú \emph{disjunktné}. Ak platí $V \subseteq 
+V'$ a $E \subseteq E'$, tak potom je graf $G'$ \emph{podgrafom} grafu $G$. 
+Zapisujeme $G' \subseteq G$.
+
+Ak $G' \subseteq G$ a $G'$ obsahuje všetky hrany $xy \in E$ pre $x,y \in V'$, 
+tak hovoríme, že graf $G'$ je \emph{indukovaný podgraf} grafu $G$. Taktiež 
+hovoríme, že $V'$ \emph{indukuje} $G'$ na $G$ a zapisujeme $G' =: G[V']$. 
+Zápis $G[\{v\}]$ skracujeme na $G[v]$.
+
+Ak je $U$ nejaká množina vrcholov, tak zápisom $G - U$ (operátory $-$ a 
+$\setminus$ budeme občas zamieňať) označujeme $G[V(G) \setminus U]$. Inými 
+slovami graf $G - U$ dosiahneme tak, že z grafu $G$ vymažeme všetky vrcholy z 
+množiny $U$ a všetky incidentné hrany k nim. Pre $G - \{u\}$ používame aj zápis 
+$G - u$.
+Pre graf $G=(V,E)$ a množinu hrán $F = \{xy: x, y \in V\}$ zapisujeme 
+$G + F = (V, E \cup F)$ a $G - F = (V, E \setminus F)$.
+
+\section{Vlastnosti grafu}
+
+Uvažujme o grafe $G = (V, E)$. Množinu susedov vrchola $v$ označujeme
+$N_G(v)$. Pokiaľ to bude z kontextu jasné, tak iba skrátene $N(v)$. Zápis 
+rozšírme na množiny. Pre množinu $U \subseteq V$ zapisujeme $N(U)$ množinu 
+susedov všetkých vrcholov $u \in U$. Množinu $N(U)$ nazývame \emph{susedmi} $U$. 
+\emph{Susedov vrátane vrchola} označujeme susedov vrchola s vrcholom samotným. 
+Pre vrchol $v$ susedov vrátane vrchola zapisujeme ako $N[v] := N(v) \cup \{v\}$. 
+Podobne môžeme rozšíriť zápis aj na množiny. \emph{Pokrytím} množiny $U 
+\subseteq V$ nazývame množinu $N[U] := N(U) \cup U$.
+
+Číslo $d_G(v) = d(v) := |E_G(v)|$ sa nazýva \emph{stupeň} vrchola. Je to počet 
+susedov vrchola (neplatí pre digrafy, multigrafy a iné zložité grafy, ktorými 
+sa tu však nezaoberáme). Vrchol stupňa $0$ je \emph{izolovaný}. Číslo $\delta 
+(G) := min \{d(v), v \in G\}$ je \emph{minimálny stupeň} grafu $G$. Podobne 
+číslo $\Delta (G) := max \{d(v), v \in G\}$ je \emph{maximálny stupeň} grafu 
+$G$.
+
+\section{Cesta a cyklus}
+
+\emph{Cesta} je graf $P = (V, E)$ v tvare: 
+$$ V = \{x_0, x_1, x_2, x_3, \ldots, x_k\} \qquad 
+   E = \{x_0x_1, x_1x_2, x_2x_3, \ldots, x_{k-1}x_k\},$$
+kde všetky vrcholy $x_i$ sú navzájom rôzne. Vrcholy $x_0$ a $x_k$ sa nazývajú 
+\emph{konce} cesty a zvyšné vrcholy sú \emph{vrnútorné} vrcholy. Cestu 
+zjednodušene označujeme sledom vrcholov: $P = x_0x_1x_2\cdots x_k$. Aj keď 
+nevieme rozlíšiť medzi cestami $P_1 = x_0x_1x_2\cdots x_k$ a 
+$P_2 = x_kx_{k-1}x_{k-2}\cdots x_0$, často si zvolíme jednu možnosť a hovoríme 
+o \emph{ceste z $x_0$ do $x_k$} (v tomto prípade sme si vybrali cestu $P_1$). 
+\emph{Dĺžka cesty} je číslo $k$ (cesta môže mať dĺžku 0).
+
+\emph{Cyklus} je cesta $P = (V, E)$ v tvare 
+$$ V = \{ x_0, x_1, x_2, x_3, \ldots, x_{k-1}\} \qquad 
+E = \{x_0x_1, x_1x_2, x_2x_3, \ldots, x_{k-2}x_{k-1}, x_{k-1}x_0\}$$
+
+O ceste má zmysel hovoriť iba ak $k \geq 3$. \emph{Dĺžka cyklu} je číslo $k$. 
+Je to počet vrcholov (a zároveň aj hrán) v grafe.
+
+V následujúcich kapitolách sme sa zamerali a prebrali si jednotlivé existujúce 
+algoritmy, ktoré boli implementované.

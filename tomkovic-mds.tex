@@ -1,0 +1,149 @@
+\documentclass[a4paper,oneside,12pt]{book} 
+ 
+\usepackage[xetex]{graphicx}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{amsfonts}
+%\defaultfontfeatures{Mapping=tex-text,Ligatures={Common}}
+\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase,Ligatures={Common}}
+%\setmonofont{LMMonoLt10}
+\setmainfont{Junicode}
+% \setmainfont{Times New Roman}
+% \setmainfont[
+%  BoldFont={Junicode}, 
+%  ItalicFont={Junicode},
+%  BoldItalicFont={Junicode}
+%  ]{Gentium}
+
+\newICUfeature{LigType}{disc}{+dlig}
+
+\usepackage{polyglossia}
+%\setdefaultlanguage{czech}
+\setdefaultlanguage{slovak}
+%\PolyglossiaSetup{slovak}{indentfirst=true}
+%\usepackage{csquotes}
+
+%\usepackage[slovak, english]{babel}
+%\usepackage[english,slovak]{babel}
+
+\usepackage{url}
+\usepackage[xetex]{hyperref}
+
+\usepackage[
+   backend=biber      % if we want unicode 
+%  ,style=iso-authoryear % iso-authoryear or iso-numeric for numeric citation method
+  ,style=authoryear 
+%  ,style=authoryear-comp 
+  %,babel=other        % to support multiple languages in bibliography
+  %,autolang=other % to support multiple languages in bibliography
+  ,autolang=langname % to support multiple languages in bibliography
+  %,sortlocale=cs_CZ   % locale of main language, it is for sorting
+  ,bibencoding=UTF8   % this is necessary only if bibliography file is in different encoding than main document
+]{biblatex}
+\addbibresource{literatura.bib}
+
+\usepackage{pdfpages}
+\usepackage{xcolor}
+\usepackage[head=20pt,a4paper]{geometry}
+\geometry{top=2.5cm,bottom=2.5cm,left=3.5cm,right=2.0cm}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{changepage}
+\usepackage{indentfirst}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{ %
+\fancyhf{} %
+% \fancyfoot[LE,RO]{\thepage} %
+\fancyfoot[RO]{\thepage} %
+\renewcommand{\headrulewidth}{0pt} % remove lines as well
+\renewcommand{\footrulewidth}{0pt} %
+}
+
+
+     
+\usepackage{subfig}
+\usepackage{array}
+
+\usepackage{comment}
+ 
+%%definície konštánt a makier
+\def \nazovUniverzity{Univerzita Komensk{é}ho v Bratislave}
+\def \NazovUniverzity{\textbf{\Large \sc \nazovUniverzity}} %\sc pre smallcaps
+\def \nazovFakulty{Fakulta matematiky, fyziky a informatiky}
+\def \NazovFakulty{\textbf{\large \sc \nazovFakulty}}
+\def \nazovDiela{Efektívne hľadanie minimálne dominujúcej množiny na reálnych sieťach}
+\def \NazovDiela{\LARGE{\em \nazovDiela}}
+\def \podnazovDiela{nie je}
+\def \PodazovDiela{\large{\em \podnazovDiela}}
+\def \typPrace{Magisterská práca}
+\def \TypPrace{\large{\typPrace}}
+\def \autor{Viktor Tomkovič}
+\def \veduci{Mgr. Martin Čajági}
+\def \rok{2014}
+\def \miestoRok{Bratislava, \rok}
+\def \cisloOdboru{2511}
+\def \katedra{Katedra aplikovanej informatiky FMFI}
+\def \odbor{Aplikovaná informatika}
+\def \program{Aplikovaná informatika}
+\def\citet#1{\textcite{#1}}
+\def\citep#1{\parencite{#1}}
+%citat: argumenty sú citát a meno autora
+\newcommand{\citat}[2]{\begin{flushright}\small\textsl{#1}\\#2\end{flushright}}
+%strednp je vystredenie textu na nepárnej strane bez ohľadu na okraje(!!!), parametrom je text
+\newcommand{\stredp}[1]{\begin{adjustwidth}{+0.50cm}{+0.00cm} \begin{center} #1 \end{center} \end{adjustwidth}}
+%stredp je obdoba predošlého príkazu len pre párne strany
+\newcommand{\strednp}[1]{\begin{adjustwidth}{+0.0cm}{+0.50cm} \begin{center} #1 \end{center} \end{adjustwidth}}
+\def\todo#1{\par\smallskip{\scriptsize {\bf TODO: }#1}\par\smallskip}
+
+\setlength\fboxsep{0pt}
+\setlength\fboxrule{0.5pt}
+\definecolor{grey}{gray}{0.6}
+\newcommand{\mybox}[2]{{\color{#1}\fbox{\normalcolor#2}}}
+\newcommand{\greybox}[1]{\mybox{grey}{#1}}
+
+% \setlength{\parindent}{0.5in}
+% \setlength{\parskip}{0.45cm}
+\setlength{\parindent}{0.25in}
+%\setlength{\parskip}{0.3em}
+
+\newcommand{\mnn}{\mathbb{N}}
+\newcommand{\mnz}{\mathbb{Z}}
+\newcommand{\mnr}{\mathbb{R}}
+\newcommand{\eul}{e}
+
+\def\uv#1{„#1“}
+\catcode`\"=\active \def "{\begingroup„\def "{\endgroup“}}
+\begin{document}
+\frontmatter
+\pagestyle{plain}
+\input{predok}
+\mainmatter
+% \pagestyle{headings}
+\pagestyle{fancy}
+\fancyhf{} 
+% \fancyfoot[LE,RO]{\thepage} 
+%  \renewcommand{\chaptermark}[1]{%
+% \markboth{\MakeUppercase{%
+% \chaptername}\ \thechapter.%
+% \ #1}{}}
+\renewcommand{\chaptermark}[1]{%
+\markboth{\MakeUppercase{%
+\chaptername\ \thechapter.%
+\ #1}}{}}
+% \fancyhead[LE,RO]{\leftmark}
+\fancyhead[RO]{\leftmark}
+\fancyfoot[RO]{\thepage} 
+\renewcommand{\headrulewidth}{0pt} % remove lines as well
+\renewcommand{\footrulewidth}{0pt} %
+% \renewcommand{\chaptermark}[1]{\markboth{#1}{}} 
+% \renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\input{uvod}
+\input{definicie}
+%\input{popis}
+%\input{implementacia}
+\backmatter
+\input{zaver}
+ 
+\end{document}
+
