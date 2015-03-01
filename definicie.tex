@@ -75,6 +75,9 @@ $G - u$.
 Pre graf $G=(V,E)$ a množinu hrán $F = \{xy: x, y \in V\}$ zapisujeme 
 $G + F = (V, E \cup F)$ a $G - F = (V, E \setminus F)$.
 
+\emph{Komponent grafu} je taký maximálny podgraf, kde medzi každou dvojicou 
+vrcholov existuje cesta.
+
 \section{Vlastnosti grafu}
 
 Uvažujme o grafe $G = (V, E)$. Množinu susedov vrchola $v$ označujeme
@@ -130,8 +133,8 @@ vlakovú/dráhovú sieť, komunikačnú sieť. Pri týchto znázorneniach vystup
 vždy dvojice komunikácií a "križovatiek" (elektrické vedenie s trafostanicami, 
 cesty s mestami, dráhy so zástavkami, linky s prepojovacími stanicami). Každá 
 komunikácia má svoju kapacitu. V týchto štruktúrach má zmysel sa pýtať otázky, 
-ako koľko veľa prúdu, zásob, dát dokáže prúdiť medzi dvoma vrcholmi. V teórii 
-grafov hovoríme o tokoch. 
+ako napríklad koľko veľa prúdu, zásob, dát dokáže prúdiť medzi dvoma vrcholmi. 
+V teórii grafov hovoríme o tokoch. 
 
 Konkrétne komunikáciu si môžeme predstaviť ako hranu $e = xy$, ktorá vyjadruje 
 aj smer prúdenia. K usporiadanej dvojici $(x, y)$ môžeme priradiť hodnotu $k$ 
@@ -146,20 +149,35 @@ komunikáciach budú prúdiť a taktiež miesta, z ktorých budú tieto veci odc
 z modelu. Tie sa označujú ako \emph{stoky}. Okrem týchto špeciálnych vrcholov 
 platí, že $$\sum_{y\in N(x)}^{}{f(x,y) = 0}$$
 
-Pokiaľ platí pre zobrazenie $f:V^2\rightarrow\mnz$, že $f(x,y) = -f(y,x)$ pre 
-susedné vrcholy $x$ a $y$ a pre vrcholy mimo zdrojov a stôk, že 
-$\sum_{y\in N(x)}^{}{f(x,y) = 0}$, tak budeme hovoriť o \emph{toku} na grafe 
-$G := (V, E)$.
+Pokiaľ platia pre graf $G := (V, E)$ a zobrazenie $f:V^2\rightarrow\mnz$ 
+vlastnosti $f(x,y) = -f(y,x)$ pre susedné vrcholy $x$ a $y$ a pre vrcholy mimo 
+zdrojov a stôk, že $\sum_{y\in N(x)}^{}{f(x,y) = 0}$, tak budeme hovoriť o 
+\emph{toku} na grafe $G$.
+
+Graf sme si zadefinovali ako štruktúru, ktorá má hrany \emph{neorientované}, 
+to znamená, že nevieme rozlíšiť, kde hrana "začína" a kde "končí". Pri tokoch 
+sme ale začali rozlišovať túto vlastnosť a tým sa hrany stali 
+\emph{orientovanými}. Grafy sa nazývajú neorientované, pokiaľ sú aj ich hrany 
+neorientované a naopak, ak sú orientované hrany, tak hovoríme aj o 
+orientovanom grafe. V ďalšom texte budeme orientovanosť uvádzať iba vtedy, keď 
+nebude jasne vyplávať z kontextu.
 
 \section{Siete}
 
 Ďalšie veci, ktoré môžeme pri modelovaní sietí z reálneho sveta skúmať sú 
-veci ohľadne štruktúry. Má zmysel sa pýtať na to, aký je priemer grafy, čí vieme 
-spraviť a aká je hierarchia vrcholov, aké komunikácie treba prerušiť na to, aby 
-sa sieť rozpadla, kam treba nasadiť špiónov, aby sme získali čo najviac 
-informácií a podobne.
+veci ohľadne štruktúry. Má zmysel sa pýtať na to, aký je priemer grafu, či vieme 
+určiť hierarchiu vrcholov a jej, aké komunikácie treba prerušiť na to, aby 
+sa sieť rozpadla, kam treba nasadiť obmedzený počet špiónov, aby sme získali čo 
+najviac informácií a podobne.
 
+Zaujímavou vlastnosťou grafu je \emph{klasterizačný koeficient vrchola}. Je 
+definovaný ako pomer počtu hrán medzi susediacimi vrcholmi daného vrchola a 
+všetkými možnými (aj potenciálnymi) hranami medzi susediacimi vrcholmi. 
+Formálne, pre graf $G := (V, E)$ je \emph{klasterizačný koeficient} vrchola 
+$v$ hodnota: $$c_v = \frac{|E(N(v))|}{{|N(v)| \choose 2}}$$
 
+\emph{Priemerný klasterizačný koeficient} $\bar{c}$ grafu $G$ je definovaný ako:
+$$\bar{c} = \frac{\sum_{v\in V}^{c_v}}{|V|}$$
 
 V následujúcich kapitolách sme sa zamerali a prebrali si jednotlivé existujúce 
 algoritmy, ktoré boli implementované.
