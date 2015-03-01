@@ -53,8 +53,8 @@ Zápisom $E(v)$ označujeme $E(v, V(G))$ a hovoríme o \emph{hranách vrchola} $
 
 Dva vrcholy $x, y$ grafu $G$ sú \emph{susedia}, ak existuje hrana $xy$ v grafe 
 $G$. Dve hrany $e \neq f$ sú susedné, ak majú spoločný jeden vrchol. Ak sú 
-všetky vrcholy v grafe navzájom susedné, graf je \emph{kompletný}. Kompletný 
-graf s $n$ vrcholmi označujeme $K^n$.
+všetky vrcholy v grafe navzájom susedné, graf je \emph{kompletný} (alebo 
+\emph{úplný}). Kompletný graf s $n$ vrcholmi označujeme $K^n$.
 
 Majme dva grafy $G = (V,E)$ a $G' = (V', E')$. Potom $G \cup G' := (V \cup V', 
 E \cup E')$. Podobne $G \cap G' := (V \cap V', E \cap E')$. Ak platí $G \cap G' 
@@ -99,7 +99,7 @@ $G$.
 $$ V = \{x_0, x_1, x_2, x_3, \ldots, x_k\} \qquad 
    E = \{x_0x_1, x_1x_2, x_2x_3, \ldots, x_{k-1}x_k\},$$
 kde všetky vrcholy $x_i$ sú navzájom rôzne. Vrcholy $x_0$ a $x_k$ sa nazývajú 
-\emph{konce} cesty a zvyšné vrcholy sú \emph{vrnútorné} vrcholy. Cestu 
+\emph{konce} cesty a zvyšné vrcholy sú \emph{vnútorné} vrcholy. Cestu 
 zjednodušene označujeme sledom vrcholov: $P = x_0x_1x_2\cdots x_k$. Aj keď 
 nevieme rozlíšiť medzi cestami $P_1 = x_0x_1x_2\cdots x_k$ a 
 $P_2 = x_kx_{k-1}x_{k-2}\cdots x_0$, často si zvolíme jednu možnosť a hovoríme 
@@ -113,5 +113,54 @@ E = \{x_0x_1, x_1x_2, x_2x_3, \ldots, x_{k-2}x_{k-1}, x_{k-1}x_0\}$$
 O ceste má zmysel hovoriť iba ak $k \geq 3$. \emph{Dĺžka cyklu} je číslo $k$. 
 Je to počet vrcholov (a zároveň aj hrán) v grafe.
 
+V nasledujúcej časti si ukážeme dátové štruktúry, s ktorými sme v práci 
+pracovali.
+
+\section{Strom}
+
+Strom je súvislý graf, ktorý má $n$ vrcholov a $n-1$ hrán.
+
+\todo{treba uviesť základnú vlastnosť a nejaké kecy o tom, čo a ako}
+
+\section{Toky}
+
+Veľa vecí z reálneho sveta sa dá modelovať pomocou grafov alebo štruktúr 
+podobných grafom. Ide napríklad o elektrickú rozvodnú sieť, cestnú sieť, 
+vlakovú/dráhovú sieť, komunikačnú sieť. Pri týchto znázorneniach vystupujú 
+vždy dvojice komunikácií a "križovatiek" (elektrické vedenie s trafostanicami, 
+cesty s mestami, dráhy so zástavkami, linky s prepojovacími stanicami). Každá 
+komunikácia má svoju kapacitu. V týchto štruktúrach má zmysel sa pýtať otázky, 
+ako koľko veľa prúdu, zásob, dát dokáže prúdiť medzi dvoma vrcholmi. V teórii 
+grafov hovoríme o tokoch. 
+
+Konkrétne komunikáciu si môžeme predstaviť ako hranu $e = xy$, ktorá vyjadruje 
+aj smer prúdenia. K usporiadanej dvojici $(x, y)$ môžeme priradiť hodnotu $k$ 
+vyjadrujúcu kapacitu komunikácie. Znamená to, že $k$ jednotiek môže prúdiť z 
+vrcholu $x$ do vrcholu $y$. Alebo usporiadanej dvojici $(x, y)$ môžeme priradiť
+zápornú hodnotu $-k$ a to znamená, že $k$ jednotiek prúdi opačným smerom. To 
+znamená, že pre zobrazenie $f:V^2\rightarrow\mnz$ (množina V označuje vrcholy), 
+bude platiť, že $f(x,y) = -f(y,x)$, keď $x$ a $y$ sú susedné vrcholy.
+
+Keď už máme vrcholy a komunikácie, musíme mať aj \emph{zdroj} vecí, ktoré po 
+komunikáciach budú prúdiť a taktiež miesta, z ktorých budú tieto veci odchádzať 
+z modelu. Tie sa označujú ako \emph{stoky}. Okrem týchto špeciálnych vrcholov 
+platí, že $$\sum_{y\in N(x)}^{}{f(x,y) = 0}$$
+
+Pokiaľ platí pre zobrazenie $f:V^2\rightarrow\mnz$, že $f(x,y) = -f(y,x)$ pre 
+susedné vrcholy $x$ a $y$ a pre vrcholy mimo zdrojov a stôk, že 
+$\sum_{y\in N(x)}^{}{f(x,y) = 0}$, tak budeme hovoriť o \emph{toku} na grafe 
+$G := (V, E)$.
+
+\section{Siete}
+
+Ďalšie veci, ktoré môžeme pri modelovaní sietí z reálneho sveta skúmať sú 
+veci ohľadne štruktúry. Má zmysel sa pýtať na to, aký je priemer grafy, čí vieme 
+spraviť a aká je hierarchia vrcholov, aké komunikácie treba prerušiť na to, aby 
+sa sieť rozpadla, kam treba nasadiť špiónov, aby sme získali čo najviac 
+informácií a podobne.
+
+
+
 V následujúcich kapitolách sme sa zamerali a prebrali si jednotlivé existujúce 
 algoritmy, ktoré boli implementované.
+
