@@ -179,6 +179,22 @@ $v$ hodnota: $$c_v = \frac{|E(N(v))|}{{|N(v)| \choose 2}}$$
 \emph{Priemerný klasterizačný koeficient} $\bar{c}$ grafu $G$ je definovaný ako:
 $$\bar{c} = \frac{\sum_{v\in V}^{c_v}}{|V|}$$
 
+Pri modeloch reálnych sietí má zmysel zaoberať sa nielen stupňami jednotlivých 
+vrcholov ale aj distribúciou stupňov a priemerným stupňom vrchola. 
+\emph{Priemerný stupeň grafu} $G = (V, E)$ označujeme $\overline{d_G} = \bar{d}$ a 
+vypočítame ako: $$\overline{d_G} = \bar{d} = \frac{\sum_{v \in V}^{}{d_v}}{|V|}$$
+
+\emph{Distribúcia stupňov vrcholov} grafu $G$ je stacionárna funkcia \todo{pozri slovenský ekvivalent}
+$p(d)$ reprezentujúca pravdepodobnosť toho, že vrchol má stupeň $d$. Platí, že: 
+$$p(d) = \frac{\sum_{v \in V}^{}{\delta(d - d_v)}}{|V|}$$\todo{vysvetli, čo to znamená..}
+
+Podobne ako distribúciu stupňov vrcholov zadefinujeme aj distribúciu 
+klasterizačných koeficientov. \emph{Distribúcia klasterizačných koeficientov 
+grafu} $G$ je stacionárna funkcia $c(d)$, ktorá hovorí o tom, aký je priemer
+klasterizačných koeficientov pre všetky vrcholy stupňa $d$. Vypočítame ho ako: 
+$$c(d) = \frac{\sum_{v \in V}^{}{\delta(d - d_v)c_v}}{d}$$
+
+
 V následujúcich kapitolách sme sa zamerali a prebrali si jednotlivé existujúce 
 algoritmy, ktoré boli implementované.
 
