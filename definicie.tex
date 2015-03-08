@@ -1,5 +1,5 @@
 
-\chapter{Definície}\label{chap:def}
+\chapter{Definície}\label{chap:definicie}
 
 V tejto kapitole sme zaviedli niektoré pojmy, s ktorými sa budeme stretávať 
 počas nasledujúcich kapitol. Sú to prevažne pojmy z teórie grafov. Keďže 
@@ -179,8 +179,8 @@ K zadefinovaniu distribúcie budeme potrebovať ešte jednu funkciu. Táto funkc
 vracia hodnotu 1 v bode 0 a vo všetkých ostatných bodoch vracia hodnotu 0. 
 Takže dobre slúži ako filter. Označme ju $\tau$ a zadefinujme: 
 $$\tau (n) = \begin{cases}
-\hfill 1 \hfill & \text{ ak $n=1$} \\
-\hfill 0 \hfill & \text{ inak} \\
+\hfill 1 \hfill & \text{ak $n=1$} \\
+\hfill 0 \hfill & \text{inak} \\
 \end{cases}$$
 
 \emph{Distribúcia stupňov vrcholov} grafu $G$ je funkcia 
@@ -194,7 +194,7 @@ Zaujímavou vlastnosťou grafu je \emph{klasterizačný koeficient vrchola}. Je
 definovaný ako pomer počtu hrán medzi susediacimi vrcholmi daného vrchola a 
 všetkými možnými (aj potenciálnymi) hranami medzi susediacimi vrcholmi. 
 Formálne, pre graf $G := (V, E)$ je \emph{klasterizačný koeficient} vrchola 
-$v$ hodnota: $$c_v = \frac{|E(N(v))|}{{|N(v)| \choose 2}}$$
+$v$ hodnota: $$c_v = \frac{|E(N(v))|}{\binom{|N(v)|}{2}}$$
 
 \emph{Priemerný klasterizačný koeficient} $\bar{c}$ grafu $G$ je definovaný ako:
 $$\bar{c} = \frac{\sum_{v\in V}^{c_v}}{|V|}$$
@@ -210,3 +210,62 @@ $$c(d) = \frac{\sum_{v \in V}^{}{\tau(d - d_v)c_v}}
 V následujúcich kapitolách sme sa zamerali a prebrali si jednotlivé existujúce 
 algoritmy, ktoré boli implementované.
 
+\begin{table}[h]
+	\begin{tabular}{lllllllll}
+		\hline
+		& naive & greedy & greedyQ & ch7alg33 & ch7alg34OT & ch7alg35OT & fnaive   & fproper \\ \hline
+		ba10    & 0.085 & 0.001  & 0.002   & 0        & 0.003      & 0.004      & 0.008    & 0.009   \\
+		ba18    & 1.284 & 0.001  & 0.002   & 0        & 0.013      & 0.008      & 0.035    & 0.035   \\
+		ba20    & 4.44  & 0.001  & 0.002   & 0        & 0.011      & 0.008      & 0.049    & 0.047   \\
+		ba100   & -     & 0.015  & 0.004   & 0.004    & 0.07       & 0.045      & 0.473    & 0.506   \\
+		ba200   &       & 0.026  & 0.006   & 0.009    & 0.135      & 0.073      & 30.515   & 30.412  \\
+		ba1000  &       & 0.087  & 0.045   & 0.037    & 0.883      & 0.512      &          &         \\
+		ba2000  &       & 0.142  & 0.095   & 0.053    & 2.524      & 0.988      &          &         \\
+		ba10k   &       & 1.844  & 0.362   & 0.54     & 45.781     & 6.662      &          &         \\
+		ba20k   &       & 8.813  & 1.294   & 3.8      &            & 22.256     &          &         \\
+		ba100k  &       & 66762  & 68.669  & 135.197  &            &            &          &         \\
+		rnd10   &       & 0.001  & 0.002   &          &            &            & 0.003    & 0.003   \\
+		rnd15   &       & 0.001  & 0.002   &          &            &            & 0.048    & 0.043   \\
+		rnd20   &       & 0.001  & 0.002   &          &            &            & 0.107    & 0.112   \\
+		rnd100  &       & 0.011  & 0.004   &          &            &            & 1293.811 & 1302.94 \\
+		rnd200  &       & 0.032  & 0.008   &          &            &            &          &         \\
+		rnd1000 &       & 0.072  & 0.043   &          &            &            &          &         \\
+		rnd2000 &       & 0.114  & 0.096   &          &            &            &          &         \\
+		rnd10k  &       & 2.484  & 0.44    &          &            &            &          &         \\
+		rnd20k  &       & 11.281 & 1.671   & 4.947    &            &            &          &         \\
+		zly10   &       & 0.005  & 0.003   & 0.003    & 0.04       & 0.018      & 0.119    & 0.117   \\
+		zly20   &       & 0.022  & 0.01    & 0.022    & 0.098      & 0.036      & 0.809    & 0.814   \\
+		zly100  &       & 0.09   & 0.151   & 0.21     & 6.213      & 2.107      &          &         \\ \hline
+	\end{tabular}
+\end{table}
+
+\begin{landscape}
+\begin{table}[h]
+\centering
+	\begin{tabular}{llllllllll}
+		& naive & greedy & greedyQ & ch7alg33 & ch7alg34OT & ch7alg35OT & fnaive   & fproper & macov \\
+		ba10    & 0.085 & 0.001  & 0.002   & 0        & 0.003      & 0.004      & 0.008    & 0.009   & 1     \\
+		ba18    & 1.284 & 0.001  & 0.002   & 0        & 0.013      & 0.008      & 0.035    & 0.035   & 1     \\
+		ba20    & 4.44  & 0.001  & 0.002   & 0        & 0.011      & 0.008      & 0.049    & 0.047   & 1     \\
+		ba100   & -     & 0.015  & 0.004   & 0.004    & 0.07       & 0.045      & 0.473    & 0.506   & 1     \\
+		ba200   &       & 0.026  & 0.006   & 0.009    & 0.135      & 0.073      & 30.515   & 30.412  & 1     \\
+		ba1000  &       & 0.087  & 0.045   & 0.037    & 0.883      & 0.512      &          &         & 2     \\
+		ba2000  &       & 0.142  & 0.095   & 0.053    & 2.524      & 0.988      &          &         &       \\
+		ba10k   &       & 1.844  & 0.362   & 0.54     & 45.781     & 6.662      &          &         &       \\
+		ba20k   &       & 8.813  & 1.294   & 3.8      &            & 22.256     &          &         &       \\
+		ba100k  &       & 66762  & 68.669  & 135.197  &            &            &          &         & 1     \\
+		rnd10   &       & 0.001  & 0.002   &          &            &            & 0.003    & 0.003   & 1     \\
+		rnd15   &       & 0.001  & 0.002   &          &            &            & 0.048    & 0.043   & 2     \\
+		rnd20   &       & 0.001  & 0.002   &          &            &            & 0.107    & 0.112   & 3     \\
+		rnd100  &       & 0.011  & 0.004   &          &            &            & 1293.811 & 1302.94 & 3     \\
+		rnd200  &       & 0.032  & 0.008   &          &            &            &          &         & 5     \\
+		rnd1000 &       & 0.072  & 0.043   &          &            &            &          &         &       \\
+		rnd2000 &       & 0.114  & 0.096   &          &            &            &          &         & 5     \\
+		rnd10k  &       & 2.484  & 0.44    &          &            &            &          &         & 5     \\
+		rnd20k  &       & 11.281 & 1.671   & 4.947    &            &            &          &         & 5     \\
+		zly10   &       & 0.005  & 0.003   & 0.003    & 0.04       & 0.018      & 0.119    & 0.117   & 5     \\
+		zly20   &       & 0.022  & 0.01    & 0.022    & 0.098      & 0.036      & 0.809    & 0.814   & 5     \\
+		zly100  &       & 0.09   & 0.151   & 0.21     & 6.213      & 2.107      &          &         & 5    
+	\end{tabular}
+\end{table}
+\end{landscape}

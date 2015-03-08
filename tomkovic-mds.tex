@@ -4,6 +4,7 @@
 \usepackage{fontspec}
 \usepackage{xunicode}
 \usepackage{amsfonts}
+\usepackage{amsmath}
 %\defaultfontfeatures{Mapping=tex-text,Ligatures={Common}}
 \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase,Ligatures={Common}}
 %\setmonofont{LMMonoLt10}
@@ -24,8 +25,8 @@
 \newICUfeature{LigType}{disc}{+dlig}
 
 \usepackage{polyglossia}
-\setdefaultlanguage{czech}
-%\setdefaultlanguage{slovak}
+%\setdefaultlanguage{czech}
+\setdefaultlanguage{slovak}
 %\PolyglossiaSetup{slovak}{indentfirst=true}
 
 %\usepackage[slovak, english]{babel}
@@ -66,12 +67,13 @@
 }
 
 
-     
 \usepackage{subfig}
 \usepackage{array}
 
 \usepackage{comment}
- 
+
+\usepackage{pdflscape}
+
 %%definície konštánt a makier
 \def \nazovUniverzity{Univerzita Komensk{é}ho v Bratislave}
 \def \NazovUniverzity{\textbf{\Large \sc \nazovUniverzity}} %\sc pre smallcaps
@@ -145,8 +147,9 @@
 % \renewcommand{\sectionmark}[1]{\markright{#1}{}}
 \input{uvod}
 \input{definicie}
-%\input{popis}
-%\input{implementacia}
+\input{popis}
+\input{implementacia}
+\input{vysledky}
 \backmatter
 \input{zaver}
  
