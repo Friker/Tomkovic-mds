@@ -121,9 +121,50 @@ pracovali.
 
 \section{Strom}
 
-Strom je súvislý graf, ktorý má $n$ vrcholov a $n-1$ hrán.
+Graf, ktorý nemá cyklus, sa nazýva \emph{acyklický}. Taktiež sa nazýva aj 
+\emph{les}. Les, ktorý má iba jeden komponent sa nazýva \emph{strom}. Takže 
+les je graf, ktorého komponenty sú stromy. Často sa nám oplatí poznať 
+základné vlastnosti stromu. 
+Tie najzákladnejšie sú zároveň aj zameniteľné a ú rôznymi obmenami definície 
+stromu.
 
-\todo{treba uviesť základnú vlastnosť a nejaké kecy o tom, čo a ako}
+Následné tvrdenia sú zameniteľné pre graf $T$:
+%\begin{enumerate}[(i)]
+\begin{enumerate}
+	\item \label{itm:strom} graf $T$ je strom;
+	\item ľubovoľné dva vrcholy v grafe $T$ sú spojené jedinečnou cestou 
+v grafe $T$;
+	\item \label{itm:minsuv} graf $T$ je minimálne súvislý -- graf $T$ 
+je spojitý, ale graf $T - e$ je nespojitý pre všetky hrany $e \in T$;
+	\item graf $T$ je maxmimálne acyklický -- graf $T$ neobsahuje cyklus, 
+ale graf $T + xy$ cyklus obsahuje pre ľubovoľné nesusedné vrcholy $x, y \in T$.
+\end{enumerate}
+
+Jedinečnú cestu z vrcholu $x$ do vrcholu $y$ v strome $T$ budeme označovať 
+$xTy$. Z ekvivalencie bodov \ref{itm:strom} a \ref{itm:minsuv} vyplýva, 
+že pre každý spojitý graf platí, že jeho ľubovoľný najmenej spojitý podgraf 
+bude strom.
+
+Vrcholy stupňa jeden sa nazývajú \emph{listy}. Každý netriviálny strom má aspoň 
+dva listy. Napríklad konce najdlhšej cesty. Jeden zaujímavý fakt -- ak zo 
+stromu odstránime list, ostane nám strom.
+
+Občas je vhodne označiť jeden vrchol stromu špeciálne. A to ako \emph{koreň}. 
+Koreň potom tvorí základ stromu. Pokiaľ je koreň nemenný, tak hovoríme 
+o \emph{zakorenenom strome}. Vybratím koreňa $k$ v strome $T$ nám dovoľuje 
+spraviť čiastočné usporiadanie na $V(T)$. Nech $r$ je koreň stromu $T$, 
+$r, x, y \in V(T)$, $x \leq y$ a platí, že $x \in rTy$, potom $\leq$ je 
+čiastočné usporiadanie na množine $V(T)$. Zakorenené stromy sa zvyknú kresliť 
+"po vrstvách", kde je vidieť čiastočné usporiadanie vrcholov.
+
+
+\section{Bipartitné grafy}
+
+Nech $r \geq 2$ je prirodzené číslo. Graf $G = (V, E)$ sa nazýva 
+\emph{r-partitný}, ak môžeme $V$ rozdeliť do $r$ skupín tak, že každá hrana 
+má koniec v inej skupine. Z toho vplýva, že vrcholy v jednej skupine nie sú 
+susedné. Ak platí, že  $r = 2$ nenazývame graf "2-partitný" ale 
+\emph{bipartitný} (i keď obe pomenovania sú správne).
 
 \section{Toky}
 
@@ -185,16 +226,16 @@ $$\tau (n) = \begin{cases}
 
 \emph{Distribúcia stupňov vrcholov} grafu $G$ je funkcia 
 $p(d)$ reprezentujúca pravdepodobnosť toho, že vrchol má stupeň $d$. Platí, že: 
-$$p(d) = \frac{\sum_{v \in V}^{}{\tau(d - d_v)}}{|V|}$$\todo{vysvetli, čo to znamená..}
+$$p(d) = \frac{\sum_{v \in V}^{}{\tau(d - d_v)}}{|V|}$$
 
 Suma vo funkcii prechádza všetkými vrcholmi a vďaka filtračnej funkcii $\tau$ 
-spočíta, koľko je vrcholov stupňa $d$.
+spočíta, koľko je vrcholov stupňa $d$. Potom sa toto číslo predelí počtom vrcholov
 
 Zaujímavou vlastnosťou grafu je \emph{klasterizačný koeficient vrchola}. Je 
 definovaný ako pomer počtu hrán medzi susediacimi vrcholmi daného vrchola a 
 všetkými možnými (aj potenciálnymi) hranami medzi susediacimi vrcholmi. 
 Formálne, pre graf $G := (V, E)$ je \emph{klasterizačný koeficient} vrchola 
-$v$ hodnota: $$c_v = \frac{|E(N(v))|}{\binom{|N(v)|}{2}}$$
+$v$ hodnota: $$c_v = \frac{|E(N[v])|}{\binom{|N[v]|}{2}}$$
 
 \emph{Priemerný klasterizačný koeficient} $\bar{c}$ grafu $G$ je definovaný ako:
 $$\bar{c} = \frac{\sum_{v\in V}^{c_v}}{|V|}$$
