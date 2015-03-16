@@ -163,7 +163,7 @@ $r, x, y \in V(T)$, $x \leq y$ a platí, že $x \in rTy$, potom $\leq$ je
 Nech $r \geq 2$ je prirodzené číslo. Graf $G = (V, E)$ sa nazýva 
 \emph{r-partitný}, ak môžeme $V$ rozdeliť do $r$ skupín tak, že každá hrana 
 má koniec v inej skupine. Z toho vplýva, že vrcholy v jednej skupine nie sú 
-susedné. Ak platí, že  $r = 2$ nenazývame graf "2-partitný" ale 
+susedné. Ak platí, že  $r = 2$, nenazývame graf "2-partitný" ale 
 \emph{bipartitný} (i keď obe pomenovania sú správne).
 
 \section{Toky}
@@ -229,7 +229,7 @@ $p(d)$ reprezentujúca pravdepodobnosť toho, že vrchol má stupeň $d$. Platí
 $$p(d) = \frac{\sum_{v \in V}^{}{\tau(d - d_v)}}{|V|}$$
 
 Suma vo funkcii prechádza všetkými vrcholmi a vďaka filtračnej funkcii $\tau$ 
-spočíta, koľko je vrcholov stupňa $d$. Potom sa toto číslo predelí počtom vrcholov
+spočíta, koľko je vrcholov stupňa $d$. Potom sa toto číslo predelí počtom vrcholov.
 
 Zaujímavou vlastnosťou grafu je \emph{klasterizačný koeficient vrchola}. Je 
 definovaný ako pomer počtu hrán medzi susediacimi vrcholmi daného vrchola a 
@@ -247,66 +247,69 @@ klasterizačných koeficientov pre všetky vrcholy stupňa $d$. Vypočítame ho 
 $$c(d) = \frac{\sum_{v \in V}^{}{\tau(d - d_v)c_v}}
 {\sum_{v \in V}^{}{\tau(d - d_v)}}$$
 
+\section{Asymptotická zložitosť}
+
+V tejto práci sa zaoberáme najmä prácou s reálnymi dátami a konkrétnymi 
+algoritmami. Ale aj pri tomto zameraní je dobre, keď vieme približne odhadnúť 
+s akými veľkými množstvami dát algoritmus pracuje, ako zhruba veľa operácií 
+procesor vyžaduje na daný výpočet v závislosti od veľkosti vstupných dát. Inými 
+slovami, potrebujeme buď vedieť porovnať dve funkcie alebo nejakú funkciu 
+zatriediť medzi ostatné. 
+
+Na tieto požiadavky vznikla \emph{"O-notácia"} \citep{onot}, ktorá vyjadruje 
+asymptotický rast funkcií. Uplatňuje sa v informatike a matematike. 
+Ide o vytvorenie rôznych tried funkcií. Aj keď v informatike sa zväčša 
+porovnáva rast počtu krokov od veľkosti vstupu a veľkosť vstupu aj počet krokov 
+sú diskrétne údaje, uvedieme tu definíciu pre funkcie, ktoré majú svoj 
+definičný obor aj obor hodnôt v množinách reálnych čísel.
+
+Vyjadrime \emph{asymptotický odhad zhora}. 
+Majme dve funkcie $f, g: \mnr \rightarrow \mnr$. Potom:
+
+$$\exists c\ge 0\ \exists x_0\ \forall x\ge x_0: 
+f(x) \leq c\cdot g(x) \iff f(x) \in O(g(x))$$
+
+Veľmi často sa v informatike zamieňa zápis $f(x) \in O(g(x))$ so zápisom 
+$f(x) = O(g(x))$ a hovorí sa, že "$f(x)$ je $O(g(x))$". Napríklad, ak 
+funkcia $f(x) = 5x^2+3x+7$ a funkcia $g(x) = x^2$, tak sa hovorí, 
+že "$f(x)$ je $O(x^2)$". Taktiež môžeme povedať, že $f(x)$ rastie 
+kvadraticky.
+
+Vidno, že funkcia $g(x)$ nejakým spôsobom ohraničuje funkciu $f(x)$ zhora. 
+Asymptotický odhad pomocou $O(g(x))$ nám ale nehovorí nič o tom, ako veľmi 
+zhora je funkcia $f(x)$ ohraničená. Zväčša sa však používa dostatočne tesný 
+odhad.
+
+Ak však chceme byť v našom odhade presnejší, existuje aj \emph{asymptoticky tesný 
+odhad} a je definovaný ako:
+
+$$\exists c_1\ge 0\ \exists c_2\ge 0\ \exists x_0\ \forall x\ge x_0: 
+c_1\cdot g(x)\leq f(x) \wedge f(x) \leq c_2\cdot g(x) \iff f(x) \in \Theta (g(x))$$
+
+V praxi sa používa menej. Je však vhodný, ak chceme ukázať najtesnejší odhad 
+pre daný algoritmus. Ak existuje. Ak neexistuje, alebo sme ho zatiaľ nenašli, 
+tak neostáva nič iné, ako spraviť tesný horný a dolný odhad. 
+\emph{Asymptotický dolný odhad} je 
+definovaný ako:
+
+$$\exists c\ge 0\ \exists x_0\ \forall x\ge x_0: 
+c\cdot g(x) \leq f(x) \iff f(x) \in \Omega (g(x))$$
+
+Z tejto definície je vidieť, že asymptoticky tesný odhad $\Theta (g(x))$ môžeme 
+vyjadriť aj ako: 
+
+$$f(x) \in O(g(x)) \wedge f(x) \in \Omega (g(x)) \iff f(x) \in \Theta (g(x))$$
+
+Tento vzťah dobre vyjadruje reálnu snahu pri určovaní asymptotickej zložitosti 
+algoritmov. Algoritmus sa hrubo odhadne zhora aj zdola a postupne sa tieto 
+odhadu spresňujú. 
+
+V matimatike sa používa ešte jeden asymptotický vzťah a to 
+\emph{asymptotická rovnosť}. Je to podobný vzťah ako tesný asymptotický odhad, 
+opäť používa dve funkcie $f(x), g(x)$ na reálnych číslach a je definovaný ako:
+
+$$\forall \varepsilon \ge 0 \exists n_0 \forall n > n_0: 
+\left| \frac{f(x)}{g(x)} - 1 \right| < \varepsilon \iff f(x) \sim g(x)$$
 
 V následujúcich kapitolách sme sa zamerali a prebrali si jednotlivé existujúce 
 algoritmy, ktoré boli implementované.
-
-\begin{table}[h]
-	\begin{tabular}{lllllllll}
-		\hline
-		& naive & greedy & greedyQ & ch7alg33 & ch7alg34OT & ch7alg35OT & fnaive   & fproper \\ \hline
-		ba10    & 0.085 & 0.001  & 0.002   & 0        & 0.003      & 0.004      & 0.008    & 0.009   \\
-		ba18    & 1.284 & 0.001  & 0.002   & 0        & 0.013      & 0.008      & 0.035    & 0.035   \\
-		ba20    & 4.44  & 0.001  & 0.002   & 0        & 0.011      & 0.008      & 0.049    & 0.047   \\
-		ba100   & -     & 0.015  & 0.004   & 0.004    & 0.07       & 0.045      & 0.473    & 0.506   \\
-		ba200   &       & 0.026  & 0.006   & 0.009    & 0.135      & 0.073      & 30.515   & 30.412  \\
-		ba1000  &       & 0.087  & 0.045   & 0.037    & 0.883      & 0.512      &          &         \\
-		ba2000  &       & 0.142  & 0.095   & 0.053    & 2.524      & 0.988      &          &         \\
-		ba10k   &       & 1.844  & 0.362   & 0.54     & 45.781     & 6.662      &          &         \\
-		ba20k   &       & 8.813  & 1.294   & 3.8      &            & 22.256     &          &         \\
-		ba100k  &       & 66762  & 68.669  & 135.197  &            &            &          &         \\
-		rnd10   &       & 0.001  & 0.002   &          &            &            & 0.003    & 0.003   \\
-		rnd15   &       & 0.001  & 0.002   &          &            &            & 0.048    & 0.043   \\
-		rnd20   &       & 0.001  & 0.002   &          &            &            & 0.107    & 0.112   \\
-		rnd100  &       & 0.011  & 0.004   &          &            &            & 1293.811 & 1302.94 \\
-		rnd200  &       & 0.032  & 0.008   &          &            &            &          &         \\
-		rnd1000 &       & 0.072  & 0.043   &          &            &            &          &         \\
-		rnd2000 &       & 0.114  & 0.096   &          &            &            &          &         \\
-		rnd10k  &       & 2.484  & 0.44    &          &            &            &          &         \\
-		rnd20k  &       & 11.281 & 1.671   & 4.947    &            &            &          &         \\
-		zly10   &       & 0.005  & 0.003   & 0.003    & 0.04       & 0.018      & 0.119    & 0.117   \\
-		zly20   &       & 0.022  & 0.01    & 0.022    & 0.098      & 0.036      & 0.809    & 0.814   \\
-		zly100  &       & 0.09   & 0.151   & 0.21     & 6.213      & 2.107      &          &         \\ \hline
-	\end{tabular}
-\end{table}
-
-\begin{landscape}
-\begin{table}[h]
-\centering
-	\begin{tabular}{llllllllll}
-		& naive & greedy & greedyQ & ch7alg33 & ch7alg34OT & ch7alg35OT & fnaive   & fproper & macov \\
-		ba10    & 0.085 & 0.001  & 0.002   & 0        & 0.003      & 0.004      & 0.008    & 0.009   & 1     \\
-		ba18    & 1.284 & 0.001  & 0.002   & 0        & 0.013      & 0.008      & 0.035    & 0.035   & 1     \\
-		ba20    & 4.44  & 0.001  & 0.002   & 0        & 0.011      & 0.008      & 0.049    & 0.047   & 1     \\
-		ba100   & -     & 0.015  & 0.004   & 0.004    & 0.07       & 0.045      & 0.473    & 0.506   & 1     \\
-		ba200   &       & 0.026  & 0.006   & 0.009    & 0.135      & 0.073      & 30.515   & 30.412  & 1     \\
-		ba1000  &       & 0.087  & 0.045   & 0.037    & 0.883      & 0.512      &          &         & 2     \\
-		ba2000  &       & 0.142  & 0.095   & 0.053    & 2.524      & 0.988      &          &         &       \\
-		ba10k   &       & 1.844  & 0.362   & 0.54     & 45.781     & 6.662      &          &         &       \\
-		ba20k   &       & 8.813  & 1.294   & 3.8      &            & 22.256     &          &         &       \\
-		ba100k  &       & 66762  & 68.669  & 135.197  &            &            &          &         & 1     \\
-		rnd10   &       & 0.001  & 0.002   &          &            &            & 0.003    & 0.003   & 1     \\
-		rnd15   &       & 0.001  & 0.002   &          &            &            & 0.048    & 0.043   & 2     \\
-		rnd20   &       & 0.001  & 0.002   &          &            &            & 0.107    & 0.112   & 3     \\
-		rnd100  &       & 0.011  & 0.004   &          &            &            & 1293.811 & 1302.94 & 3     \\
-		rnd200  &       & 0.032  & 0.008   &          &            &            &          &         & 5     \\
-		rnd1000 &       & 0.072  & 0.043   &          &            &            &          &         &       \\
-		rnd2000 &       & 0.114  & 0.096   &          &            &            &          &         & 5     \\
-		rnd10k  &       & 2.484  & 0.44    &          &            &            &          &         & 5     \\
-		rnd20k  &       & 11.281 & 1.671   & 4.947    &            &            &          &         & 5     \\
-		zly10   &       & 0.005  & 0.003   & 0.003    & 0.04       & 0.018      & 0.119    & 0.117   & 5     \\
-		zly20   &       & 0.022  & 0.01    & 0.022    & 0.098      & 0.036      & 0.809    & 0.814   & 5     \\
-		zly100  &       & 0.09   & 0.151   & 0.21     & 6.213      & 2.107      &          &         & 5    
-	\end{tabular}
-\end{table}
-\end{landscape}
