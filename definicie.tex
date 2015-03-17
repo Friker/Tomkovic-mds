@@ -295,8 +295,8 @@ definovaný ako:
 $$\exists c\ge 0\ \exists x_0\ \forall x\ge x_0: 
 c\cdot g(x) \leq f(x) \iff f(x) \in \Omega (g(x))$$
 
-Z tejto definície je vidieť, že asymptoticky tesný odhad $\Theta (g(x))$ môžeme 
-vyjadriť aj ako: 
+Z tejto definície je vidieť, že \emph{asymptoticky tesný odhad} $\Theta (g(x))$ 
+môžeme vyjadriť aj ako: 
 
 $$f(x) \in O(g(x)) \wedge f(x) \in \Omega (g(x)) \iff f(x) \in \Theta (g(x))$$
 
@@ -310,6 +310,9 @@ opäť používa dve funkcie $f(x), g(x)$ na reálnych číslach a je definovan�
 
 $$\forall \varepsilon \ge 0 \exists n_0 \forall n > n_0: 
 \left| \frac{f(x)}{g(x)} - 1 \right| < \varepsilon \iff f(x) \sim g(x)$$
+
+Z definície je vidieť, že pokiaľ sú dve funkcie asymptoticky rovnaké, tak budú 
+aj navzájom asymptoticky tesné.
 
 V následujúcich kapitolách sme sa zamerali a prebrali si jednotlivé existujúce 
 algoritmy, ktoré boli implementované.
