@@ -5,6 +5,7 @@
 \usepackage{xunicode}
 \usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage{nicefrac}
 %\defaultfontfeatures{Mapping=tex-text,Ligatures={Common}}
 \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase,Ligatures={Common}}
 %\setmonofont{LMMonoLt10}
@@ -32,6 +33,15 @@
 
 %\usepackage[slovak, english]{babel}
 %\usepackage[english,slovak]{babel}
+
+%\usepackage{csquotes}
+%\DeclareQuoteStyle{slovak}
+%{\quotedblbase}
+%{\textquotedblleft}
+%[0.05em]
+%{\quotesinglbase}
+%{\fixligatures\textquoteleft}
+
 
 \usepackage{url}
 \usepackage[xetex]{hyperref}
@@ -119,6 +129,9 @@
 \newcommand{\mnz}{\mathbb{Z}}
 \newcommand{\mnr}{\mathbb{R}}
 \newcommand{\eul}{e}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 
 \def\uv#1{„#1“}
 \catcode`\"=\active \def "{\begingroup„\def "{\endgroup“}}
