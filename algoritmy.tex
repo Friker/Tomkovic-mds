@@ -1,0 +1,287 @@
+\chapter{Prehľad algoritmov}\label{chap:algoritmy}
+
+V tejto kapitole si spravíme prehľad algoritmov, ktoré existujú na nájdenie 
+minimálnej dominujúcej množiny. Najprv zadefinujeme minimálnu dominujúcu 
+množinu, neskôr určíme požiadavky na algoritmy a potom popíšeme jednotlivé 
+konkrétne algoritmy.
+
+\section{Dominujúce množiny}
+
+\emph{Dominujúca množina} $S$ na grafe $G = (V, E)$ je podmnožina množiny 
+vrcholov $V$ grafu $G$ taká, že každý vrchol grafu sa v množine nachádza 
+alebo je susedný s dominujúcou množinou. Pre množinu platí: $N[S] = V$. 
+Z definície je zrejmé, že o dominujúcich množinách má zmysel hovoriť iba pri 
+grafoch s konečným počtom vrcholov.
+
+\emph{Minimálna dominujúca množina} $S_M$ je dominujúca množina s najmenšou 
+kardinalitou.
+
+\emph{Dominančé číslo} $\gamma (G)$ grafu $G$ je kardinalita minimálnej 
+dominujúcej množiny. Ak je množina $S_M$ minimálnou dominujúcou množinou, tak 
+platí, že $\gamma (G) = |S_M|$.
+
+Na tomto mieste zadefinujeme aj vrcholové pokrytie. Uvádzame ho tu preto, lebo 
+problém nájdenia vrcholového pokrytia súvisí s problémom nájdenia minimálnej 
+dominujúcej množiny. \emph{Vrcholové pokrytie} $S^\prime$ na grafe $G = (V, E)$ 
+je podmnožina množiny vrcholov $V$ grafu $G$ taká, že každá hrana $xy \in E$ 
+je incidentná s vrcholom vrcholového pokrytia. Pre množinu platí: 
+$\forall xy \in E: x \in S^\prime \vee y \in S^\prime $
+
+Podobne ako pri minimálnej dominujúcej množine, existuje aj minimálne vrcholové 
+pokrytie.
+
+Jedným zo spôsobov, ako vyriešiť problém nájdenia minimálnej dominujúcej 
+množiny je previesť ho na problém množinového pokrytia. \emph{Množinové 
+pokrytie} je súbor množín, ktorých zjednotenie obsahuje všetky prvky univerza. 
+Formálne je daná usporiadaná dvojica $(\mathcal{S}, \mathcal{U})$, kde:
+
+\begin{itemize}
+	\item množina množín $\mathcal{S}$ obsahuje množiny $S_1, S_2, S_3, ..., 
+		S_n$ také, že $\bigcup_{i = 1}^{n} S_i = \mathcal{U}$;
+	\item množina $\mathcal{U}$ je množina všetkých prvkov a nazýva sa 
+		\emph{univerzum}.
+\end{itemize}
+
+Množinové pokrytie je podmnožina $\mathcal{C} \subseteq \mathcal{S}$ množín, 
+pre ktorú platí, že $\bigcup_{C \in \mathcal{C}} C = \mathcal{U}$.
+
+\section{Požiadavky na algoritmy}
+
+Táto práca ma za úlohu nájsť vhodný algorimus na hľadanie minimálnej 
+dominujúcej množiny. Ale pre reálne dáta. To znamená, že grafy, na ktorých 
+budeme minimálnu dominujúcu množinu hľadať majú veľa vrcholov. Avšak problém 
+nájdenia minimálnej dominujúcej množiny na grafe sa dá redukovať na problém 
+vrcholového pokrytia, o ktorom vieme, že je NP-ťažký. To znamená, že na 
+vyrátanie minimálnej dominujúcej množiny treba veľmi veľa výpočtového času na 
+súčasných počítačoch. Keďže pre reálne požiadavky je častokrát lepší nejaký, 
+aj keď nie optimálny výsledok, tak sme sa rozhodli, že algoritmus nemusí dávať 
+optimálny výsledok, ale môže dať približný výsledok v rozumnom čase. Rozumný 
+čas však neurčujeme absolútne, keďže počítače sa vyvíjajú a výpočtová sila sa 
+zväčšuje, ale relatívne vzhľadom na ostatné algoritmy.
+
+\subsection{Výhoda sieti malého sveta}
+
+\todo{Počet hrán je rádovo rovnaký ako počet vrcholov v sieti malého sveta}
+
+\subsection{Test, či je množina dominujúcou}
+
+Keďže graf máme reprezentovaný susednosťou vrcholov, tak priamočiary algoritmus 
+na zistenie, či je množina dominujúcou vyzerá následovne:
+
+\begin{enumerate}
+	\item Pre každý vrchol testovanej množiny pridaj do výslednej množiny 
+všetkých susedov vrchola;
+	\item porovnaj výslednú množinu s množinou vrcholov grafu.
+\end{enumerate}
+
+Nech má graf $n$ vrcholov, $m$ hrán a testovaná množina $s \leq n$ vrcholov. 
+Potom v prvom kroku vykonáme $O(sm)$ operácií a v druhom $O(n^2)$ operácií. 
+Test teda trvá $O(sm + n^2)$ operácií. Keďže počet vrcholov v testovanej 
+množine môže byť rovnaký ako počet vrcholov grafu, tak odhad môžeme upraviť na 
+$O(nm + n^2)$. Keďže pre siete malého sveta platí $O(m) = O(n)$, tak časový 
+odhad pre siete malého sveta je $O(n^2)$.
+
+\section{Skúšanie všetkých možností}
+
+Prvým algoritmom, ktorý je v prehľade, je najzákladnejší algoritmu vyskúšania 
+všetkých možností. Tento algoritmus budeme volať aj \emph{naivný}. Algoritmus 
+vždy poskytne správny výsledok, ale výpočet bude trvať dlho. Je 
+to však dobrý začiatok k ďalším algoritmom. Pracuje podľa krokov:
+
+\begin{enumerate}
+	\item \label{itm:bf:one} Vyber podmnožinu grafu;
+	\item \label{itm:bf:two} otestuj, či je podmnožina dominujúcou množinou;
+	\item \label{itm:bf:three} ak je podmnožina dominujúcou množinou a zároveň má najmenšiu 
+kardinalitu, zapamätaj si ju;
+	\item \label{itm:bf:four} opakuj, kým nevyberieš všetky možné podmnožiny práve raz;
+	\item \label{itm:bf:five} jednou z minimálnych dominujúcich množín je zapamätaná množina a 
+dominančné číslo grafu je jej kardinalita.
+\end{enumerate}
+
+Algoritmus je pomalý hlavne kvôli kroku \ref{itm:bf:four} -- všetkých možných 
+podmnožín je $2^n$, takže výsledný algoritmus skúšania všetkých možností bude 
+$\Omega (2^n)$. Súčasné počítače zvládnu úlohu v rozumnom čase vyrátať pre 
+$n\le 40$.
+
+Tam, kde je najväčšia slabina, je zväčša aj najväčší priestor na zlepšenie. 
+Existujú mnohé zlepšenia, ktoré zrýchlia algoritmus nielen v priemernom 
+(resp.~reálnom) prípade, ale aj zlepšia teoretický odhad.
+
+\section{Heuristiky pre algoritmus skúšania všetkých možností}
+
+V tejto sekcii si povieme niečo o možných heuristikách pre naivný algoritmus. 
+\emph{Heuristika} v algoritme je nejaký prvok, zväčša zo skúsenosti z reálneho 
+sveta, o ktorom predpokladáme, že nám pomôže zrýchliť výpočet. Aj keď obvykle 
+nezlepšuje asymptotickú zložitosť, heuristiky sa snažia byť navrhnuté tak, aby 
+vo väčšine prípad zrýchlili beh algoritmu.
+
+Častým príkladom a aplikáciou je jedna z heuristík na hľadanie najkratšej 
+cesty. Možná heuristika je, že prehľadávanie bude uprednostňovať cesty 
+smerujúce k hľadanému bodu. Tu si všimnime, že pri heuristike potrebujeme 
+poznať informáciu, ako je daná voľba dobrá. Pokiaľ nie je medzi hľadaným bodom 
+a bodom, z ktorého hľadáme prekážka, algoritmus prehľadá oveľa menej hrán, 
+ako pri bežnom prehľadávaní. Samozrejme, pokiaľ sme v bludisku a najkratšia 
+cesta vedie "opačným" smerom, tak prehľadáme všetky hrany, kým sa dostaneme k 
+cieľu.
+
+Podobne je to aj pri hľadaní minimálnej dominujúcej množiny. Dobrým odhadom sa 
+javí možnosť vybrať do potenciálnej množiny $S$ ten vrchol $v$, ktorý vie 
+pokryť čo najviac vrcholov, teda sa javí byť čo najbližšie k cieľu. Čiže hľadáme 
+$\argmax_v \left|N\left[S \cup {v}\right]\right|$ pre $v \in V$. Spojenie 
+tejto heuristiky s vedomosťou, že siete malého sveta majú veľa klastrov ešte 
+upevňuje predpoklad, že táto heuristika bude dávať na sieťach malého sveta 
+rýchlejšie výsledky a "zlých" prípadov bude málo.
+
+V pôvodnom algoritme, ktorý skúša všetky možnosti to znamená, že si pamätáme 
+dočasný najlepší výsledok a neskúšame tie možnosti, ktoré obsahujú viac vrcholov 
+ako dočasný najlepší výsledok. Samotné vynechanie tých možností, ktoré majú viac 
+prvkov ako momentálny najlepší výsledok je veľké zrýchlenie, keďže pre súvislý 
+graf s $N$ vrcholmi platí, že veľkosť minimálnej dominujúcej množiny je nanajvýš 
+${N}\!/{2}$.
+
+\todo{cut, prevedenie a tak}
+
+\section{Prevedenie na problém množinového pokrytia}
+
+Ďalšou možnosťou, ako presne nájsť minimálnu dominujúcu množinu je previesť 
+problém na problém množinového pokrytia, vyriešiť ten a výsledok opäť previesť.
+Tento spôsob navrhol \citet{grandoni04} vo svojej dizertačnej práci. Dôvodom 
+prevodu je fakt, že problém množinového pokrytia bol v minulosti oveľa 
+skúmanejším problémom.
+Keďže pri exponenciálnych algoritmoch celkom záleží aj na konštante pri 
+exponente, odhad tohto algoritmu spresnil \citet{fomin05}. 
+
+\citet{grandoni04} previedol problém minimálnej dominujúcej množiny na 
+hľadanie minimálneho množinového pokrytia na grafe $G := (V, E)$ tak, že 
+množiny predstavovali vrchol a jeho susedov. Univerzom je množina vrcholov 
+grafu. Takže vytvoril usporiadanú dvojicu $({N[v] : v \in V }, V)$, čo je 
+vstupný údaj pre hľadanie množinového pokrytia.
+
+\subsection{Pomocné tvrdenia}
+
+V algoritme využijeme následujúce tvrdenia, ktoré platia v každej dvojici 
+$(\mathcal{S}, \mathcal{U})$ problému množinového pokrytia:
+\begin{enumerate}
+	\item pre každé dve navzájom odlišné množiny $S$ a $R$ také, že 
+		$S, R \in \mathcal{S}, S \subseteq R$, platí, že existuje vrcholové 
+		pokrytie, ktoré neobsahuje $S$;
+	\item ak existuje prvok $u \in U$, ktorý patrí iba do jednej množiny 
+		$S \in \mathcal{S}$, tak táto množina $S$ patrí do každého vrcholového 
+		pokrytia.
+\end{enumerate}
+
+Zaujímavým pozorovaním je, že každá podmnožina s kardinalitou jeden, spĺňa 
+práve jedno z tvrdení.
+
+V prípade, že všetky podmnožiny $S \in \mathcal{S}$ sú dvojprvkové, problém 
+sa dá redukovať na hľadanie maximálneho párenia. \emph{Párenie} v grafe $G$ 
+je množina hrán $M$ taká, že hrany nemajú spoločný ani jeden vrchol. 
+\emph{Maximálne párenie} je párenie s najväčšou mohutnosťou.
+
+Z inštancie problému množinového pokrytia $(\mathcal{S}, \mathcal{U})$, kde 
+$|S| = 2, S \in \mathcal{S}$, vieme spraviť graf $G^\prime = (V, E)$ tak, 
+že množinou vrcholov bude množina univerza, čiže $V = \mathcal{U}$ a množinu 
+hrán $E$ budú tvoriť podmnožiny $S \in \mathcal{U}$. Minimálnu dominujúcu 
+množinu na grafe reprezentovanú dvojicou $(\mathcal{S}, \mathcal{U})$ vieme 
+určiť pomocou minimálneho hranového pokrytia na grafe $G^\prime$. 
+Minimálne hranové pokrytie zase vieme získať pomocou maximáneho párenia. 
+Keďže hranám v grafe $G^\prime$ zodpovedá práve jedna podmnožina 
+$S \in \mathcal{S}$ v dvojici $(\mathcal{S}, \mathcal{U})$, tak vieme určiť 
+maximálne množinové pokrytie.
+
+\subsection{Algoritmus}
+
+Samotný algoritmus hľadania minimálneho množinového pokrytia je založený na 
+princípe rozdeľuj a panuj. Pracujeme s inštanciou $(\mathcal{S}, \mathcal{U})$. 
+Jeho triviálny prípad je, keď $|\mathcal{S}| = 0$. Pred rozdelením sa snaží 
+odstrániť podmnožiny kardinality $1$.  Ak majú všetky podmnožiny mohutnosť 
+práve dva, problém sa prevedie na problém maximálneho párenia. Ak má nejaká 
+množina kardinalitu väčšiu ako 2 nastáva delenie. Spájanie výsledkov spočíva 
+iba v porovnaní, ktorá z vetiev dala lepší výsledok. Výstupom algoritmu je 
+množina podmnožín, ktorá tvorím minimálne množinové pokrytie. Algoritmus 
+dostáva za vstup iba množinu podmnožín $\mathcal{S}$ a vyzerá následovne 
+(v algoritme sú kvôli prehľadnosti podmnožiny nazývané množinami):
+
+\begin{enumerate}
+	\item ak je množina množín $\mathcal{S}$ prázdna, vráť prázdnu množinu;
+	\item ak je nejaká množina $R$ podmnožinou inej množiny $S$, vráť výsledok 
+		algoritmu pre $\mathcal{S} \setminus R$;
+	\item ak existuje jedinečný prvok medzi množinami a ten je obsiahnutý (iba) 
+		v množine $R$, vráť výsledok algoritmu pre $\mathcal{S} \setminus R$ 
+		zjednotený s množinou $R$;
+	\item ak majú všetky množiny mohutnosť dva, tak vráť výsledok z maximálneho 
+		párenia;
+	\item inak spusti dvakrát algoritmus s vynechaním ľubovoľnej množiny $R$; 
+		raz ju vynechaj s množiny množín $\mathcal{S}$, vtedy sa do výsledku 
+		nezaráta; druhý raz odstráň zo všetkých množín prvky množiny $R$ a 
+		zarátaj množinu do výsledku; porovnaj, pre ktoré spustenie dal 
+		algoritmus lepší výsledok a ten vráť.
+\end{enumerate}
+
+Ako vidno, krok 1 je triviálny prípad. Kroky 2, 3 a 4 sú popísané vyššie. 
+V kroku 5 je slovo ľubovoľný. Toto správanie sa dá zameniť pomocou nejakej 
+heuristiky. Prirodzene sa núka skúsiť vyberať množiny s najväčšou mohutnosťou 
+najskôr, keďže tie redukujú ostatné množiny najviac.
+
+\section{Pažravý algoritmus}
+
+V predchádzajúcich častiach sme si popísali algoritmy, ktoré rátajú presné 
+výsledky. Na veľkých sieťach, napríklad na zobrazeniach skutočných sietí, 
+sú však nepoužiteľné. Preto si musíme vystačiť iba s približným výsledkom. 
+
+Prvým algoritmom, ktorý uvedieme a bude výsledok určovať iba približne, bude 
+jednoduchý pažravý algoritmus, od ktorého si postupne odvodíme iné a použijeme 
+viacero postupov, na riešenie problému nájdenia minimálnej dominujúcej množiny. 
+Pre pripomenutie -- \emph{pokrytie vrchola} je množina všetkých jeho susedov 
+vrátane vrchola a \emph{pokrytie množiny} je prienik pokrytie vrcholov množiny. 
+
+Algoritmus vyzerá následovne:
+\begin{enumerate}
+	\item na začiatku je výsledná množina prázdna;
+	\item do výslednej množiny pridaj vrchol, ktorý pokryje čo najviac ešte 
+		nepokrytých vrcholov;
+	\item opakuj predošlý bod, až kým nebude výsledná množina pokrývať všetky 
+		vrcholy;
+	\item vráť výslednú množinu.
+\end{enumerate}
+
+Za zmienku stojí, že v bode 3 algoritmus musí určiť, či výsledná množina už 
+pokrýva všetky vrcholy. Toto z tohto algoritmu a jeho variatov robí algoritmy, 
+ktoré sú zložité najmenej kvadraticky od počtu vrcholov.
+
+Ako aj pri algoritmoch s exaktnými výsledkami, aj tu môžeme použiť nejaké 
+heuristiky na druhý krok. O tých si povieme neskôr.
+
+\section{Distribuovaný algoritmus}
+
+V tejto časti si ukážeme prerobenie pažravého algoritmu na distribuovaný, ktorý 
+navrhol \citet{chapS}. 
+Využijeme pri tom jedno pozorovanie. V bode 2 sa vyberie vrchol, ktorý pokrýva 
+čo najviac ešte nepokrytých vrcholov. Počet ešte nepokrytých vrcholov môže 
+ovplyvniť iba výber vrcholov zo vzdialenosti najviac 2. Preto, ak vrchol môže 
+pokryť najviac vrcholov s pomedzi vrcholov vzdialených najviac 2, tak sa tento 
+vrchol môže vybrať do výslednej množiny pred ostatnými. 
+
+Toto pozorovanie vedie ku konštrukcii veľmi jednoduchého algoritmu (v každom 
+vrchole):
+
+\begin{enumerate}
+	\item pre svoj vrchol vypočítaj počet ešte nepokrytých vrcholov;
+	\item tento počet pošli algoritmom vo vrcholoch najviac vzdialených dve 
+		hrany;
+	\item ak vrchol pokrýva najväčší počet vrcholov vo vzdialenosti najviac 
+		dva, tak vrchol pridaj do dominujúcej množiny (ak je takých vrcholov 
+		viac, rozhodni náhodne -- napríklad podľa ID);
+	\item opakuj od bodu 1, až kým vrchol nebude mať všetkých susedov 
+		pokrytých;
+\end{enumerate}
+
+Tento algoritmus teoreticky funguje veľmi dobre. Počet vykonaných krokov bude 
+lineárne úmerný počtu vrcholov grafu, keďže v každom kroku sa aspoň jeden 
+vrchol vyberie. V skutočnosti má okrem veľa implementačných problémov uvedených 
+v kapitole \ref{chap:vysledky} aj zlý počet krokov výpočtu pre niektoré typy 
+grafov.
+
+\todo{Uviesť zlé typy grafov a vylepšený algoritmus}
+
+\section{Heuristiky pre pažravý algoritmus}
