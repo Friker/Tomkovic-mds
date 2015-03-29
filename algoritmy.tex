@@ -285,3 +285,16 @@ grafov.
 \todo{Uviesť zlé typy grafov a vylepšený algoritmus}
 
 \section{Heuristiky pre pažravý algoritmus}
+
+V predchádzajúcich častiach sme zhrnuli rôzne postupy, ako riešiť problém 
+minimálnej dominujúcej množiny. V tejto časti uvedieme heuristiky pre pažravý 
+algoritmus spomenutý vyššie. Prvou heuristikou bude výber vrchola, ktorý 
+pokrýva vrchol stupňa najviac jeden. Túto heuristiku rozvinieme a pridáme k 
+nej ďalšie. Potom ich skombinujeme do rôznych algoritmov.
+
+\subsection{Odstraňovanie výhonkov}
+
+Prvá heuristikou, ktorú uvedieme je jednoduchá. V pažravom algoritme, pred tým, 
+ako začneme vyberať vrcholy (krok 2), tak vyberieme všetky vrcholy stupňa nula 
+a vrcholy, ktoré susedia s vrcholmi stupňa jeden (to znamená ich jediných 
+susedov).
