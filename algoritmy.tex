@@ -61,7 +61,84 @@ zväčšuje, ale relatívne vzhľadom na ostatné algoritmy.
 
 \subsection{Výhoda sieti malého sveta}
 
-\todo{Počet hrán je rádovo rovnaký ako počet vrcholov v sieti malého sveta}
+V tejto časti ukážeme dôkaz, že v sieťach malého sveta je počet hrán rádovo 
+rovnaký ako počet vrcholov. A teda siete malého sveta sú riedke grafy. 
+
+Budeme vychádzať z toho, že pre distribúciu stupňov vrcholov platí:
+$$p(d) = kd^{-a} + q, 2 \leq a \leq 3$$
+
+Pre dostatočne veľké siete môžeme nespojitú funkciu $p : \mnn \leftarrow \mnn$ 
+aproximovať spojitou verziou $p : \mnr \leftarrow \mnr$. Ďalej o $q$ vieme, že 
+$q \leq 1/V$, kde $V$ je počet vrcholov grafu. Pre počet hrán v grafe 
+$G = (V, E)$ platí, že je to polovica súčtu stupňov grafu. Teda môžeme napísať, 
+že: $$|E| = \frac{1}{2}\sum_{d = 1}^{\Delta(G)} p(d) \sim 
+\frac{1}{2}\int_1^{\Delta (G)} \! p(x) \, \mathrm{d}x$$
+
+%Platí, že:
+%\begin{align*}
+%\frac{1}{2}\int_1^{\Delta (G)} \! p(x) \, \mathrm{d}x &\leq \
+%\frac{1}{2}\int_1^{|V|} \! p(x) \, \mathrm{d}x \\
+%\end{align*}
+
+Úpravou integrálu dostaneme:
+
+\begin{align*}
+\frac{1}{2}\int_1^{\Delta (G)} \! p(x) \, \mathrm{d}x \
+&= \frac{1}{2}\int_1^{\Delta (G)} \! kd^{-a} + q \, \mathrm{d}x \\
+&= \frac{1}{2}\left[\frac{1}{a - 1} \left(- k x^{- a + 1} + q x \
+\left(a - 1\right)\right)\right]_1^{|V|}
+\end{align*}
+
+Keďže $2 \leq a \leq 3$ a integrujeme medzi $1$ a $\Delta (G)$, tak môžeme 
+ohraničiť výpočet:
+
+\begin{align*}
+\frac{1}{2}\left[\frac{1}{a - 1} \left(- k x^{- a + 1} + q x \
+\left(a - 1\right)\right)\right]_1^{\Delta (G)} \leq \
+\frac{1}{2}\left[- \left( k x^{- 1} - q x \right)\right]_1^{\Delta (G)}
+\end{align*}
+
+Pre konštantu $q$ platí, že $q \leq \frac{1}{\Delta (G)}$. Inak by súčet v 
+distribúcií bol väčší ako počet vrcholov.
+
+\begin{align*}
+\frac{1}{2}\left[- \left( k x^{- 1} - q x \right)\right]_1^{\Delta (G)} \leq \
+\frac{1}{2}\left[- \left( k x^{- 1} - \
+\frac{x}{\Delta (G)} \right)\right]_1^{\Delta (G)} 
+\end{align*}
+
+Ďalšou úpravou dostaneme:
+
+\begin{align*}
+\frac{1}{2}\left[- \left( k x^{- 1} - \frac{x}{\Delta (G)} \
+\right)\right]_1^{\Delta (G)} \
+\!\!\!\!&= \frac{1}{2}\left\{\left[- \left( k \Delta (G)^{- 1} - \
+\frac{\Delta (G)}{\Delta (G)}\right)\right] - \
+\left[- \left( k 1^{- 1} - \frac{1}{\Delta (G)}\right)\right] \right\}\\
+&= \frac{1}{2}\left\{\left[- \left( k \Delta (G)^{- 1} - 1 \right)\right] - \
+\left[- \left( k - \frac{1}{\Delta (G)} \right)\right] \right\} \\
+&= \frac{1}{2}\left\{\left(k + 1\right) - \frac{k+1}{\Delta (G)} \right\}\\
+&= \frac{1}{2}\left(k + 1\right)\left( 1 - \frac{1}{\Delta (G)} \right)\\
+\end{align*}
+
+Konštanta $k$ nemôže byť väčšia ako $|V|$. Inak by vrcholov stupňa 1 bolo viac 
+ako vrcholov v grafe. Triviálne platí, že $\Delta (G) \leq |V|$. Takže 
+odhad môžeme ďalej upraviť:
+\begin{align*}
+\frac{1}{2}\left(k + 1\right)\left( 1 - \frac{1}{\Delta (G)} \right)\
+&=\frac{1}{2}\left(|V| + 1\right)\left( 1 - \frac{1}{|V|} \right)
+\end{align*}
+
+Takže platí, že:
+\begin{align*}
+|E|&\sim \frac{1}{2}\left(|V| + 1\right)\left( 1 - \frac{1}{|V|} \right)
+\end{align*}
+a teda aj, že počet hrán je $O(V)$.
+
+Táto vlastnosť sietí malého sveta nám pomôže najmä pri voľnejšom výbere 
+heuristík a pravidiel v algoritmoch uvedených ďalej. Keďže algoritmy vo 
+všeobecnosti neuvažujú s týmto faktom, dáva nám možnosť vytvoriť zložitejší a 
+stále rovnako efektívny algoritmus.
 
 \subsection{Test, či je množina dominujúcou}
 
@@ -282,7 +359,73 @@ vrchol vyberie. V skutočnosti má okrem veľa implementačných problémov uved
 v kapitole \ref{chap:vysledky} aj zlý počet krokov výpočtu pre niektoré typy 
 grafov.
 
-\todo{Uviesť zlé typy grafov a vylepšený algoritmus}
+\begin{figure}
+	\centering
+	\includegraphics[width=1.0\textwidth]{obrazky/zle1}
+	\caption{\emph{Graf, na ktorom beží distribuovaný algoritmus pomaly.} 
+		Algoritmus v takejto situácií vyberá vrcholy postupne zľava doprava 
+		a v každom kroku môže vybrať iba jeden vrchol.}
+	\label{img:zle1}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\textwidth]{obrazky/zle2}
+	\caption{\emph{Graf, na ktorom beží distribuovaný algoritmus pomaly.} 
+		Algoritmus v takejto situácií vyberá vrcholy náhodne, ale v každom 
+		kroku iba jeden, pretože všetci potenciálny kandidáti sa blokujú.}
+	\label{img:zle2}
+\end{figure}
+
+Na obrázku \ref{img:zle1} je vidieť jeden z možných grafov, na ktorom beží 
+algoritmus pomaly. Algoritmus síce vyberie minimálnu dominujúcu množinu presne. 
+Tá pozostáva z vrcholov na jej "osi". Ale v jednom opakovaní cyklu algoritmus 
+vyberie najviac jeden vrchol, postupne zľava doprava. Je vidno, že algoritmus 
+je $\Theta (N)$, kde $N$ je počet vrcholov grafu. Tento problém môžeme vyriešiť 
+tak, že povolíme vybrať aj vrcholy s menším pokrytím vrchola. Tým síce 
+zhoršíme aproximačný faktor, ale nie o veľa. Konkrétne, ak zhoršíme aproximačný 
+faktor dvojnásobne, môžeme zaokrúhliť pokrytie vrchola na najbližšiu mocninu 
+dvojky. Pri vyberaní najlepšieho kandidáta môžeme potom vybrať aj vrchol s 
+menším pokrytím.
+
+Druhou zlou možnosťou pre algoritmus je, keď je v grafe veľký klaster s 
+vrcholmi rovnakého stupňa. Možnosť je znázornená na obrázku \ref{img:zle2}. 
+Algoritmus nemôže naraz vybrať všetky vrcholy stupňa 3. Bráni mu v tom 
+podmienka, že sa dá vybrať iba jeden z vrcholov spomedzi okolia vzdialenosti 
+dva. Tu pomôže, ak povolíme vybrať viac vrcholov naraz, pokiaľ si príliš 
+neprekážajú.
+
+Algoritmus s týmito dvoma uvedenými vylepšeniami je zložitejší. Horným 
+ohraničením pokrytia budeme nazývať najbližšiu hornú mocninu dvojky. Podobne, 
+dolným ohraničením pokrytia budeme označovať najbližšiu dolnú mocninu dvojky.
+
+
+\begin{enumerate}
+	\item pre svoj vrchol vypočítaj počet ešte nepokrytých vrcholov;
+	\item vypočítaj dolné ohraničenie pokrytia;
+	\item zober dolné ohraničenia susedov vzdialených najviac 2;
+	\item ak je dolné ohraničenie také, ako najväčšie dolné ohraničenie 
+		spomedzi susedov, tak sa vrchol má šancu stať vybratým;
+	\item táto šanca je nepriamo úmerná počtu vrcholov s najväčším dolným 
+		pokrytím;
+	\item vyber vrchol s pravdepodobnosťou vypočítanou vyššie;
+	\item vypočítaj hodnotu $c$ -- počet kandidátov na vybratie spomedzi 
+		pokrývajúcich vrcholov;
+	\item ak je vrchol vybratý a súčet hodnôt $c$ pre pokrývajúce vrcholy 
+		je menší alebo rovný ako trojnásobok počtu pokrývajúcich vrcholov, 
+		tak vrchol pridaj do medzivýsledku;
+	\item opakuj od bodu 1, až kým vrchol nebude mať všetkých susedov 
+	pokrytých;
+\end{enumerate}
+
+Takto upravený algoritmus zvláda vypočítať dominujúce množiny o čosi 
+rýchlejšie. Keďže množstvo klastrov a počet vrcholov s rovnakým stupňom je v 
+sieťach malého sveta veľký, tak je predpoklad, že tento upravený algoritmus 
+bude bežať oveľa rýchlejšie na sieťach malého sveta ako neupravený.
+
+Vďalšej časti sa už nezaoberáme distribuovanými algoritmami ale jednoduchým 
+pažravým algoritmom s rôznymi heuristikami.
+
 
 \section{Heuristiky pre pažravý algoritmus}
 
@@ -297,4 +440,75 @@ nej ďalšie. Potom ich skombinujeme do rôznych algoritmov.
 Prvá heuristikou, ktorú uvedieme je jednoduchá. V pažravom algoritme, pred tým, 
 ako začneme vyberať vrcholy (krok 2), tak vyberieme všetky vrcholy stupňa nula 
 a vrcholy, ktoré susedia s vrcholmi stupňa jeden (to znamená ich jediných 
-susedov).
+susedov). Tieto vrcholy budeme nazývať \emph{výhonky}.
+
+
+\subsection{Odstraňovanie kvetín}
+
+Druhá heuristika spočíva v rozšírení prvej -- odstraňovaní výhonkov. Vo 
+všeobecnosti sa dá povedať, že sme sa snažili vybrať vrchol s čo najväčším 
+počtom nepokrytých susedov takých, ktoré majú všetkých susedov spoločných s 
+vybratým vrcholom. Teda tvoria akýsi lokálny klaster "na okraji" grafu. 
+
+Vrchol $v$, ktorý pokrýva $n$ vrcholov, ktoré majú za susedov iba susedov 
+vrchola $v$, nazývame \emph{kvetinou} rádu $n$.
+
+\subsection{Rozhodovanie rovnakých vrcholov}
+
+Keď máme viacero rovnakých kandidátov (z pohľadu) na výber, je otázne, či si 
+vybrať náhodný vrchol, vrchol s najmenším/najväčším ID alebo pridať nejaké 
+pravidlo, ktoré rozhodne o priorite výberu. Tu si uvedieme nejaké pravidlá.
+
+V základnom pažravom algoritme na hľadanie sietí malého sveta je často 
+situácia, kde majú rovnaký počet ešte nepokrytých vrcholov vrcholy s úplne 
+iným stupňom. Možno ešte podstatnejšia hodnota ako počet ešte nepokrytých 
+susedov je počet vrcholov, ktoré po vybratí daného vrchola prestanú pokrývať 
+akékoľvek vrcholy. Toto nie je to isté ako hľadanie kvetiny s najväčším rádom, 
+lebo kvetiny sa vyskytujú iba na okrajoch grafu. Vrcholy vybraté takýmto 
+rozhodovaním sa nachádzajú všade a preferujú susedov vzdialených 3 od už 
+vybratých susedov (respektíve vzdialených 2 od pokrytých vrcholov). 
+
+Treba si ale uvedomiť, že priemer siete malého sveta je malý a tak skutočná 
+preferencia na "umiestnenie v grafe" nie je. Taktiež tento spôsob vyberania 
+môže trochu korigovať "slepé" vyberanie vrcholov s väčšími stupňami.
+
+\subsection{Výsledné algoritmy}
+
+Vyššie uvedené heuristiky ide rôzne kombinovať a rôzne použiť. Na tomto mieste 
+uvedieme algoritmus, ktorý skombinuje všetky pravidlá. Pre odstraňovanie 
+výhonkov a odstraňovanie kvetín platí, že sa vykonajú iba raz -- na začiatku 
+algoritmu. Po odstránení sa spustí greedy algoritmus, ktorý vhodného kandidáta 
+vyberie na základe pokrytia vrcholu a odstraňovania najvplyvnejších vrcholov.
+
+Algoritmus vyzerá následovne:
+
+\begin{enumerate}
+	\item odstráň výhonky:
+	\begin{enumerate}
+		\item vyber vrcholy do výsledku;
+		\item pokry susedov;
+	\end{enumerate}
+	\item postupne odstraňuj kvety (postupne preto, lebo z niektorý kvetov 
+		prestanú byť kvety) -- kvety zotrieď podľa rádu a stupňa; potom 
+		postupne, až kým nie je množina kvetov prázdna:
+		\begin{enumerate}
+			\item vyber kvet do výsledku;
+			\item pokry susedov;
+			\item odstráň tie kvety, ktoré už nie sú kvetmi;
+		\end{enumerate}
+	\item prepočítaj hodnoty pre "vplyvnosť" vrcholov;
+	\item opakuj, až kým množina pokrytých vrcholov netvorí celý graf:
+		\begin{enumerate}
+			\item do výsledku vyber najlepšieho kandidáta podľa "vplyvnosti" 
+				a stupňa;
+			\item pokry susedov vybratého vrchola;
+			\item prerátaj "vplyvnosť" susedov;
+		\end{enumerate}
+\end{enumerate}
+
+Ide o upravený pažravý algoritmus. Upravený o heuristiky a pozorovania uvedené 
+vyššie. Tento algoritmus sa dá rôzne modifikovať upravovaním heuristík a 
+pravidiel. 
+
+Ide o posledný uvedený algoritmus. V ďalších kapitolách sa venujeme 
+implementačnej časti, rôznym testom a výsledkom.
