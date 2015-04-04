@@ -203,7 +203,7 @@ neorientované a naopak, ak sú orientované hrany, tak hovoríme aj o
 orientovanom grafe. V ďalšom texte budeme orientovanosť uvádzať iba vtedy, keď 
 nebude jasne vyplávať z kontextu.
 
-\section{Siete}
+\section{Komplexné siete}
 
 Ďalšie veci, ktoré môžeme pri modelovaní sietí z reálneho sveta skúmať sú 
 veci ohľadne štruktúry. Má zmysel sa pýtať na to, aký je priemer grafu, či vieme 
@@ -246,6 +246,44 @@ grafu} $G$ je funkcia $c(d)$, ktorá hovorí o tom, aký je priemer
 klasterizačných koeficientov pre všetky vrcholy stupňa $d$. Vypočítame ho ako: 
 $$c(d) = \frac{\sum_{v \in V}^{}{\tau(d - d_v)c_v}}
 {\sum_{v \in V}^{}{\tau(d - d_v)}}$$
+
+\section{Vlastnosti komplexných sietí}
+
+V predošlej časti sme uviedli definície vlastností, ktorými vieme medzi sebou 
+jednotlivé siete porovnávať a odlíšiť ich od seba.
+
+Prvou vlastnosťou, ktorou môžeme grafy porovnávať a objavuje sa v reálnych 
+sieťach, je to, čomu sa hovorí \emph{malý svet}. Graf je sieťou malého sveta 
+vtedy, keď je jeho priemer malý a zároveň má vysokú klasterizáciu vrcholov.
+
+Veľa z reálnych sietí má ďalšiu spoločnú vlastnosť. Ich distribúcia stupňov 
+vrcholov klesá mocninovo. Môžeme zapísať, že pre distribúciu platí:
+$$p(d) = d^{-\alpha}$$
+
+Siete sa líšia v konštante $\alpha$, ale iba trochu. V drvivej väčšine platí, 
+že $2 \leq \alpha \leq 3$. Keďže v takýchto sieťach by mal náhodný "výsek" 
+grafu podobné vlastnosti, tak táto vlastnosť sa nazýva aj \emph{bezškálovosť}.
+
+\section{Modely sietí}
+
+V tejto časti si ukážeme spôsob vytvárania grafov s nejakou vlastnosťou. Keďže 
+sa zaoberáme porovnávaním "obyčajných" grafov so sieťami malého sveta, 
+zameriame sa najmä na tieto dva typy.
+
+\emph{Náhodné grafy} môžeme vytvoriť napríklad týmito dvoma spôsobmi. Prvým je, 
+že pevne určíme, koľko bude mať graf vrcholov a určíme, koľko hrán má mať graf. 
+Potom náhodne vyberieme počet určených hrán. Druhým spôsobom je, že pevne 
+určíme počet vrcholov grafu a pravdepodobnosť, s ako sa každá hrana vyberie. 
+Grafy vytvorené týmito postupmi nepopisujú (nemajú dostatočné vlastnosti) siete 
+malého sveta dostatočne, preto ich nebudeme považovať za siete malého sveta.
+
+\emph{Barabási -- Albertov model} alebo aj model s preferenčným napájaním je 
+spôsob vytvárania grafov, ktorý zohľadňuje stupeň vrcholov grafu. Na začiatku 
+má graf daný počet náhodne spojených vrcholov a v každom kroku sa pridá 
+jeden vrchol a niekoľko hrán spájajú tento pridaný vrchol s existujúcimi 
+vrcholmi v grafe. Pravdepodobnosť toho, že sa hraná spojí s vrcholom je priamo 
+úmerná stupňu vrchola. Tento postup vedie ku tvorbe grafom podobným 
+vlastnosťami s komplexnými sieťami.
 
 \section{Asymptotická zložitosť}
 
