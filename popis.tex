@@ -1,12 +1,21 @@
 \chapter{Popis softvéru}\label{chap:popis}
 
-V predchádzajúcich kapitolách sme si popísali niektoré dátové štruktúry a 
-vybrané algoritmy. Hlavnou náplňou je ich testovanie. 
+V predchádzajúcich kapitolách sme spravili prehľad problematiky a algoritmov, 
+ktoré slúžia na hľadanie minimálnej dominujúcej množiny. V tejto kapitole sa 
+venujeme popisu a návrhu softvéru, ktorý slúži na porovnanie týchto algoritmov 
+a otestovanie týchto algoritmov v praxi.
+
 
 \section{Analýza existujúcich riešení}
 
-V marci roku 2015 o žiadnych podobných riešeniach nevieme.
-
+Keďže problém nájdenia minimálnej dominujúcej množiny je podobný problému 
+vrcholového pokrytia je často súčasťou aplikácií venujúcim sa zhromažďovaniu 
+rôznych grafových algoritmov. Veľa nám známych z nich obsahuje iba základy 
+výpočet všetkých možností, alebo jednoduchý aproximačný algoritmus, preto 
+tu uvedieme iba jedného zástupcu tohto druhu. Popri vyvíjaní nášho 
+softvéru sme pracovali aj s nástrojmi pre analýzu grafov. Tieto sa taktiež 
+zväčša vyskytujú v balíkoch s inými nástrojmi pracujúcimi s grafmi (napr. 
+vizualizácia). Uvedieme tiež iba jedného zástupcu.
 
 % \todo{
 % Cieľom tejto etapy je oboznámenie sa s prostredím, v ktorom bude aplikácia používaná. 
@@ -14,10 +23,80 @@ V marci roku 2015 o žiadnych podobných riešeniach nevieme.
 % Ak existujú, treba vykonať aj analýzu podobných systémov.
 % }
 
-\clearpage
+\subsection{Network Benchmark}
+
+Reprezentantom softvérov na analýzu grafov je Network Benchmark. Ide o softvér, 
+ktorý získal podporu aj Alberta Barabásiho. Bol vyvíjaný v rokoch 2005 až 2011. 
+Obsahuje príklady, dokumentáciu a podklady k práci s analýzou grafu. Je 
+naprogramovaný v jazyku \Java\ a k jeho silným stránkam patrí relatívna 
+prehľadnosť pri veľkom množstve nastaveniach a možnostiach analýzy. 
+
+Je dostupný na adrese: \url{http://nwb.cns.iu.edu/index.html}
+
+\begin{figure}
+	\centering
+	\greybox{%
+		\includegraphics[scale=0.3]{obrazky/nwb1}%
+	}
+	\caption{\emph{Softvér Network Benchmark.} V ľavej hornej časti 
+		obrazovky sa nachádzajú výpisy. V dolnej prebiehajúce a ukončené 
+		akcie a výpočty. Vpravo sú zhromaždené výsledky výpočtov.}
+	\label{img:vis:nwb1}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\greybox{%
+		\includegraphics[scale=0.3]{obrazky/nwb2}%
+	}
+	\caption{\emph{Softvér Network Benchmark.} Tu je zobrazená vizualizácia 
+		siete malého sveta. Bublinky znázorňujú jednotlivé klastre.}
+	\label{img:vis:nwb2}
+\end{figure}
+
+Na obrázku \ref{img:vis:nwb1} je vidno hlavnú obrazovku aplikácie. Práca s 
+aplikáciou prebieha tradične tak, že používateľ načíta nejakú grafovú štruktúru, 
+následne sa mu zobrazí v stĺpci napravo, označí ju a z bohatej ponuky zvolí 
+nejakú analýzu. Vľavo dole, potom vidí priebeh jeho akcií a vľavo hore bližšie 
+popisy toho, čo sa práve vykonáva.
+
+
+\subsection{NetworkX}
+
+Tento softvér je reprezentantom zbierky rôznych algoritmov na grafoch. Je 
+vyvíjaný od roku 2005 až doteraz. Posledná stabilná verzia v čase písania 
+tejto práce je zo septembra roku 2014. Ide o rozšírenie jazyka Python o novú 
+knižnicu.
+
+Sídlo projektu je na adrese: \url{https://networkx.github.io/}
+
+\begin{figure}
+	\centering
+	\greybox{%
+		\includegraphics[scale=0.6]{obrazky/nx}%
+	}
+	\caption{\emph{Softvér NetworkX.} Tu je zobrazená vizualizácia 
+		náhodného grafu s rôznymi pravdepodobnosťami hrán.}
+	\label{img:vis:nx}
+\end{figure}
+
+Na obrázku \ref{img:vis:nx} je znázornená vizualizácia so softvérom NetworkX. 
+Ide o tvorbu náhodného grafu pomocou určenia pravdepodobnosti vzniku hrany. 
+Vidno, že aj keď je NetworkX hlavne zbierkou algoritmov, poskytuje peknú 
+vizualizáciu. Jeho nedostatkom pre nás je, že na riešenie problému hľadania 
+minimálnej dominujúcej množiny poskytuje iba pažravý algoritmus.
+
 \section{Špecifikácia požiadaviek}
 
-\todo{Čo očakávame od softvéru a prečo je viac fajn ako konkurencia.}
+Ako vidno, súčasné softvéry majú dobrú ponuku rôznych algoritmov a veľa 
+odlišných vizualizácií. Avšak daň za to, že ponúkajú riešenie na veľa problémov 
+je tá, že zväčša je dostupný iba jeden algoritmus na riešenie.
+
+Keďže sa my v práci zaoberáme porovnávaním algoritmov, veľmi nám táto 
+skutočnosť nesedí. Preto by sme mali navrhnúť vlastný softvér, ktorý zrejme 
+nebude poskytovať riešenia na veľa problémov ale veľa riešení na jeden problém.
+
+%\todo{Čo očakávame od softvéru a prečo je viac fajn ako konkurencia.}
 
 \subsection{Požiadavky}
 
