@@ -100,11 +100,39 @@ nebude poskytovať riešenia na veľa problémov ale veľa riešení na jeden pr
 
 \subsection{Požiadavky}
 
-\todo{Čo má softvér robiť z hladiska funkčnosti.}
+Naša aplikácia slúži najmä na porovnávanie relatívnej rýchlosti behu algoritmov 
+a bude používaná zrejme iba úzkym okruhom ľudí.
+
+Preto sa nám zdalo byť vhodné aplikáciu nechať iba v príkazovom riadku. Znížia 
+sa tým odchýlky spôsobené grafickým prostredím. Softvér by mal vedieť spracovať 
+graf zadaný v špecifikovanom tvare. Taktiež by mal správne 
+implementovať všetky algoritmy popísané v kapitole \ref{chap:algoritmy} a 
+poskytnúť informácie o behu daného algoritmu.
+
+Implementované algoritmy by mali zahŕňať:
+
+\begin{itemize}
+	\item exaktný algoritmus skúšaním všetkých možností,
+	\item exaktný algoritmus skúšaním všetkých možností s heuristikou,
+	\item exaktný algoritmus riešený pomocou prevedenia na problém množinového 
+		pokrytia,
+	\item distribuovaný algoritmus,
+	\item upravený distribuovaný algoritmus,
+	\item jednoduchý pažravý algoritmus,
+	\item pažravý algoritmus s rôznymi heuristikami;
+\end{itemize}
+
+%\todo{Čo má softvér robiť z hladiska funkčnosti.}
 
 \subsection{Prevádzkové požiadavky}
 
-\todo{Čo má softvér robiť z hladiska hardvéru.}
+Keďže ide o softvér, ktorý medzi sebou porovnáva jednotlivé algoritmy 
+relatívne, tak nepotrebuje špecifický operačný systém. Výkon algoritmov je 
+priamo úmerný od hardvéru. To al neznamená, že by hardvér mal byť nejako 
+špecifický. Keďže sa súčasné architektúry z nášho pohľadu veľmi nelíšia, 
+nekladieme po tejto stránke žiadne požiadavky.
+
+%\todo{Čo má softvér robiť z hladiska hardvéru.}
 
 % \todo{
 % Východiskom tejto etapy je etapa analýzy. 
