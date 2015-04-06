@@ -86,6 +86,8 @@ Vidno, že aj keď je NetworkX hlavne zbierkou algoritmov, poskytuje peknú
 vizualizáciu. Jeho nedostatkom pre nás je, že na riešenie problému hľadania 
 minimálnej dominujúcej množiny poskytuje iba pažravý algoritmus.
 
+\clearpage
+
 \section{Špecifikácia požiadaviek}
 
 Ako vidno, súčasné softvéry majú dobrú ponuku rôznych algoritmov a veľa 
@@ -150,22 +152,45 @@ nekladieme po tejto stránke žiadne požiadavky.
 
 \section{Návrh}
 
-\todo{Stručný opis, čo chceme dosiahnuť.}
+Našou hlavnou úlohou je naprogramovať program, ktorý vie spracovať nejaký 
+formát vstupu, spraviť z neho graf, vykonať na ňom zvolený algoritmus. Takže 
+bude obsahovať moduly na spracovanie týchto požiadaviek. V následujúcich 
+častiach popisujeme požiadavky kladené na náš softvér.
+
+%\todo{Stručný opis, čo chceme dosiahnuť.}
 
 % vzťahy medzi časťami softvéru, 
 %štruktúru dát a rozhranie systému.
 
 \subsection{Technické požiadavky}
 
-\todo{Self-descripting}
+Softvér nevyžaduje žiaden špecifické technické veci. Vstupné a výstupné údaje 
+môžu prúdiť cez štandardný systémový vstup a výstup. V prípade lepšej práce 
+môžu byť použité knižnice na prácu s nejakými dátovými štruktúrami.
+
+%\todo{Self-descripting}
 
 \subsection{Používateľské požiadavky}
 
-\todo{Self-descripting}
+Používateľmi tejto aplikácie sú najmä ľudia, ktorí chcú porovnať jednotlivé 
+algoritmy. Teda stačí, aby bolo poskytnuté dobré vstupno-výstupné prostredie.
 
-\subsection{Použité technológie a návrhové vzory atď.}
+Ak chceme porovnávať medzi sebou rôzne algoritmy na nejakom grafe, alebo ak 
+chceme porovnávať jeden algoritmus na rôznych grafoch je dobré mať aj 
+prostredie pre dávkové úlohy.
 
-\todo{Self-descripting}
+%\todo{Self-descripting}
+
+\subsection{Použité technológie}
+
+Keďže algoritmy porovnávame relatívne na sebe, tak môžeme zvoliť ľubovoľný 
+programovací jazyk za hlavný. Keďže chceme, aby bola aplikácia ľahko 
+spustiteľná na každom operačnom systéme, vhodným kandidátom je programovací 
+jazyk \Java .
+
+\Java\ poskytuje aj implementáciu základných dátových štruktúr. Avšak túto možno 
+zameniť s nejakými inými externými knižnicami. Na implementáciu rôznych 
+algoritmov na tom istom základe je vhodné použiť návrhový vzor \emph{strategy}.
 
 %Keďže projekt bol pokračovaním predošlej práce za hlavný programovací jazyk 
 %bola zvolená \Java. Na grafické znázornenie sú to jednotlivé triedy balíkov 
@@ -175,7 +200,26 @@ nekladieme po tejto stránke žiadne požiadavky.
 
 \subsection{Rozhranie aplikácie}
 
-\todo{Vstup/výstup -- aj pre jednotlivé časti softvéru}
+Ako sme už spomenuli, rozhranie aplikácie tvorí príkazový štandardný vstup a 
+výstup. Na vstupe pre aplikáciu sú dva argumenty. Algoritmus použitý pri behu a 
+cesta k súboru s grafom. Súbor s grafom je textový súbor obsahujúci riadky, 
+v ktorých sú dvojice čísel, označujúcich neorientované hrany medzi vrcholmi. 
+Na vytvorenie vnútornej reprezentácie grafu teda treba meno súboru, ktorý graf 
+obsahuje. výstupom je objekt, s ktorým vie algoritmus pracovať. Algoritmus 
+dostane na vstup tento objekt, vypočíta potrebné pomocné dátové štruktúry, 
+spustí výpočet a vyráta výsledok. Ten potom vypíše na štandardný výstup. Čo je 
+zároveň aj výstupom aplikácie.
+
+Pre algoritmus výpočtu pomocou prevedenia sú potrebné pomocné dátové štruktúry, 
+ale v zásade ide o jednoduchý princíp posielania si rôznych reprezentácií grafu 
+objektami.
+
+Pre dávkový proces je vstupom textový súbor, ktorý obsahuje riadky. V každom 
+riadku je argument pre jeden beh aplikácie. Aplikácia sa spúšťajú za sebou, 
+následujúca až vtedy, keď sa predošlá dokončí.
+
+
+%\todo{Vstup/výstup -- aj pre jednotlivé časti softvéru}
 
 %Rozhranie vizualizácií bolo podobné ako všetkých iných štruktúr 
 %implementovaných v~predošlej verzií softvéru. Vstupné dáta boli zadávané do 
