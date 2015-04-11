@@ -1,13 +1,79 @@
+\def\alg#1{\texttt{#1}}
+
 \chapter{Implementácia softvéru}\label{chap:implementacia}
 
 V tejto kapitole postupne uvedieme realizáciu návrhu popísaného 
-v~kapitole~\ref{chap:definicie}. Popíšeme ako sme implementovali jednotlivé 
-algoritmy a ukážeme si 
-štruktúru a ovládanie aplikácie. 
-Na záver uvedieme ako dopadlo testovanie softvéru ().
+v~kapitole~\ref{chap:popis}. Popíšeme ako sme implementovali jednotlivé 
+algoritmy a ukážeme si štruktúru a ovládanie aplikácie. 
+
 % \todo{
 % Programovo realizujeme podrobný návrh databázovej aplikácie. 
 % Vypracuje sa podrobná dokumentácia k vytvorenému produktu. 
 % Vytvorí sa používateľská príručka, kde sa podrobne dokumentuje používateľské rozhranie, spresní sa popis funkcií a spôsob ich aktivácie.
 % }
 
+\section{Algoritmy}
+
+Aj keď sme porovnávali iba 10 algoritmov, dokopy bolo implementovaných 
+algoritmov viac. V následujúcich častiach postupne uvedieme jednotlivé 
+algoritmy a ich označenia pre aplikáciu. Algoritmy boli implementované podľa 
+popisu v~kapitole~\ref{chap:algoritmy}.
+
+Pred tým, než rozpíšeme implementáciu algoritmov uvedieme štruktúru a 
+implementáciu grafu. Graf je implementovaný ako objekt, ktorý obsahuje 
+zoznam hrán. Pokiaľ je to potrebné (čo zväčša je), vie sa iniciovať a zavolať 
+vypočítanie susedov do vzdialenosti 2 pre každý vrchol (aby sa nemuselo počítať 
+pri každom použití ale iba raz, na začiatku). Taktiež objekt reprezentácie 
+grafu vie skontrolovať, či je nejaká množina dominujúcou. To je spravené 
+pomocou delegácie na algoritmus kontroly dominujúcej množiny.
+
+Nasleduje popis jednotlivých skupín algoritmov s ich označeniami.
+
+\subsection{Algoritmy skúšajúce všetky možnosti}
+
+Prvým a základným algoritmom je algoritmus, ktorý skúša všetky možnosti. Jeho 
+označenie v softvéri je \alg{naive}. Je implementovaný rekurzívnym 
+prehľadávaním. Obdobou sú algoritmy označené \alg{mynaive} a \alg{mynaive2}, 
+ktoré obsahuje základné heuristiky. Prvou je, že algoritmus najprv zoradí pole 
+vrcholov podľa stupňa a až potom začne vyberať do výsledku. Druhou je, že ak 
+je medzivýsledok menšej mohutnosti, tak neskúša vyberať množiny s väčšou 
+mohutnosťou.
+
+\subsection{Algoritmy prevedenia problému}
+
+Ďalšími algoritmami, ktoré sme implementovali, boli algoritmy, ktoré prevádzali 
+hľadanie minimálnej dominujúcej množiny na problém množinového pokrytia. Keďže 
+algoritmus bol reprezentovaný návrhovým vzorom \emph{strategy}, tak 
+sa implementácia zjednodušila a sprehľadnila. Časť algoritmu sa venovala 
+spracovaniu vstupu a časť výpočtu a implementovaniu náročnejších algoritmov. 
+
+Aj keď \citet{fomin05} uvádzajú algoritmus jeden, my sme implementovali dve rôzne 
+verzie: \alg{fnaive} a \alg{fproper}. Verzia \alg{fnaive} neobsahuje finálne 
+prevedenie na hľadanie minimálneho hranového pokrytia v grafe. Verzia 
+\alg{fproper} toto prevedenie obsahuje a implementuje ho cez hľadanie 
+maximálneho párenia v grafe. Keďže v čase použitia algoritmu je graf 
+bipartitný, tak sa to dá spraviť.
+
+\subsection{Distribuované algoritmy}
+
+Podobne ako predošlé algoritmy, aj tieto algoritmy mali viac verzií. Konkrétne 
+jednovláknovú a viacvláknovú. Distribuovanosť bola implementovaná cez veľa 
+na sebe nezávislých vlákien. Nedistribuované verzie sme označili príponou 
+\alg{-OT} (one thread).
+
+Algoritmy sme implementovali tak ako v prehľade -- dva. Prvý bez riešenia 
+problémových grafov (obrázky \ref{img:zle1} a \ref{img:zle2}), ale prehľadnejší 
+a zrozumiteľnejší. Druhý s riešením týchto problémov. Prvý je označený ako 
+\alg{ch7alg34} (resp.~\alg{ch7alg34OT} pre jednovláknovú verziu) a druhý je 
+označený ako \alg{ch7alg35} (podobne \alg{ch7alg35OT} pre jednovláknovú verziu).
+
+\subsection{Pažravé algoritmy}
+
+Keďže jedným z hlavných cieľov práce bolo spraviť dobrú heuristiku na pažravý 
+algoritmus, tak boli tieto algoritmy implmentované vo viacerých verziách. Okrem 
+rôznych heuristík ide aj o spôsob vyberania vrcholov. Počas behu algoritmu sú 
+niektoré vrcholy vybraté do medzivýsledku, niektoré pokryté a niektoré 
+nevybraté a nepokryté. Tie vrcholy, ktoré sú nevybraté a nepokryté sú 
+označované aj ako \emph{biele}, tie ktoré nie sú vybraté, ale sú pokryté sú 
+označované ako \emph{šedé} a tie, ktoré sú vybraté sú označované ako 
+\emph{čierne}.
