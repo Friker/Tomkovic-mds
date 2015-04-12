@@ -76,4 +76,63 @@ niektoré vrcholy vybraté do medzivýsledku, niektoré pokryté a niektoré
 nevybraté a nepokryté. Tie vrcholy, ktoré sú nevybraté a nepokryté sú 
 označované aj ako \emph{biele}, tie ktoré nie sú vybraté, ale sú pokryté sú 
 označované ako \emph{šedé} a tie, ktoré sú vybraté sú označované ako 
-\emph{čierne}.
+\emph{čierne}. 
+
+Podľa algoritmu, ktorý je uvedený v časti \ref{sec:greedy} sme implementovali 
+algoritmus, ktorý sme označili \alg{greedy}. Podobne sme implementovali aj 
+verziu \alg{ch7alg33}. Avšak tá nevyberá vrcholy, ktoré pokrývajú čo najviac 
+iných spomedzi šedých a bielych, ale iba z bielych vrcholov. Veľmi podobne je 
+implementovaná aj verzia \alg{greedyq}. Jediný rozdiel je, že vrcholy na 
+začiatku behu usporiada podľa stupňa od najväčšieho po najmenší.
+
+\subsubsection{Heuristiky na rozhodovanie}
+
+Po troch podobných verziách sme implementovali rôzne heuristiky. Prvou bolo 
+odstraňovanie výhonkov. Toto odstraňovanie prebieha na začiatku 
+algoritmu, postupne v iteráciách, až kým nie je čo odstrániť. Motiváciou za 
+týmto algoritmom je efektívne odstraňovanie ciest. Verzia algoritmu s touto 
+heuristikou je označovaná ako \alg{greedysr}. 
+
+V ďalšej verzii sme použili opäť základný pažravý algoritmus, ale ako 
+rozhodovací faktor pre výber vrchola sme vybrali počet vrcholov, ktoré po 
+vybratí už nebudú mať bieleho suseda (toto nie je to isté ako rád kveta) 
+a až potom počet vrcholov, ktorým vrchol dominuje. Motiváciou bolo 
+presvedčenie, že často je lepšie vybrať vrchol, ktorý po svojom vybratí čo 
+najviac zmenší počet potenciálne vybratých vrcholov v ďalších iteráciách, 
+namiesto vyberania vrcholov s najväčším pokrytím.
+Heuristika by mala byť nejakým 
+kompromisom medzi vyberaním vrcholov "zospodu" a "zvrchu". Táto verzia 
+algoritmu je označená ako \alg{greedysw}.
+
+\subsubsection{Zložitejšia heuristika}
+
+Treťou verziou je \alg{floweru}, ktorá je podobná ako \alg{greedysr}, s tým 
+rozdielom, že na začiatku spraví iba jeden beh odstraňovania výhonkov. Toto je 
+základom pre posledný, zložitejší algoritmus, ktorý je označený \alg{flower}. 
+
+Verzia \alg{flower} na začiatku behu zoradí vrcholy podľa stupňa. Následne sa 
+snaží označiť výhonky a kvety. Vyčistí výhonky a upraví graf tak, aby sa mohli 
+vybrať kvety. Kvety sa vyberajú postupne. Najviac záleží na ráde kvetu. Ak majú 
+nejaké kvety rovnaký rád, tak sa rozhoduje podľa toho, koľko vrcholov po 
+vybratí už nebude mať bieleho suseda (podobne ako pri verzii \alg{greedysw}). 
+Ak je aj táto hodnota rovnaká, tak zaváži počet bielych susedov (najväčšie 
+pokrytie). Ak nepomôže ani toto pravidlo, tak sa vyberie náhodný vrchol.
+
+Po označení výhonkov a kvetov sa začnú označovať zvyšné vrcholy podľa 
+jednoduchého pažravého algoritmu. Avšak ako rozhodujúci faktor pri vyberaní 
+slúži najprv počet bielych susedov (pokrytie) a potom počet vrcholov, ktoré 
+po vybratí už nebudú mať bieleho suseda.
+
+\subsection{Dátové štruktúry}
+
+Aj keď na porovnanie rôznych algoritmov sú základné dátové štruktúry 
+poskytované ako súčasť knižníc jazyka \Java, rozhodli sme sa použiť na 
+implementáciu základných dátových štruktúr knižnicu HPPC od poskytovateľa 
+Carrot Search Labs vo verzii 0.6.0. Je dostupná na webovej adrese 
+\url{http://labs.carrotsearch.com/hppc.html} a licencovaná Apache License 2.0. 
+hlavnou výhodou knižnice oproti štandardnej knižnici je menšia spotreba pamäte 
+a priamejší prístup k vnútornej reprezentácií (aspoň v danej verzii). To 
+spôsobilo celkové zrýchlenie algoritmov a posunulo hranice testovateľných 
+grafov.
+
+
