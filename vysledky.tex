@@ -1,69 +1,323 @@
 \chapter{Dosiahnuté výsledky}\label{chap:vysledky}
 
-\todo{Tu budú všetky tie faily, cez ktoré som si prešiel.}
+V predošlých kapitolách sme spravili prehľad existujúcich algoritmov, popísali 
+sme ich implementáciu. V tejto kapitole uvádzame porovnanie jednotlivých 
+implementácií. Najprv uvedieme jednotlivé obmedzenia implementácie, potom 
+popíšeme spôsob testovania a napokon označenie pre jednotlivé testovacie dáta.
 
-% \todo{
-% Programovo realizujeme podrobný návrh databázovej aplikácie. 
-% Vypracuje sa podrobná dokumentácia k vytvorenému produktu. 
-% Vytvorí sa používateľská príručka, kde sa podrobne dokumentuje používateľské rozhranie, spresní sa popis funkcií a spôsob ich aktivácie.
-% }
+\section{Obmedzenia implementácie}
+
+Vývoj softvéru sa začal na staršom počítači, ktorý má procesor Intel Core 2 
+Duo P7350 (2,0GHz dvojjadrový) a 4GB RAM pamäte. Pamäť nebola obmedzením. 
+Bohužiaľ počítač 
+nebol vhodný na viacvláknové algoritmy, čo spôsobovalo problémy pre algoritmy 
+\alg{ch7alg34} a \alg{ch7alg35}. Preto sme sa zamerali na ich jednovláknové 
+verzie (\alg{ch7alg34OT}, respektíve \alg{ch7alg35OT}). Heuristiky na pažravý 
+algoritmus sa doimplementovali neskôr, preto sa neuvádzajú v starších testoch.
+
+Počas vývoja začal byť dostupný novší počítač, na ktorom sa testovali už všetky 
+heuristiky pre pažravý algoritmus. Počítač má procesor Intel Core i5-4690K CPU 
+(3,50GHz štvorjadrový) a 16GB pamäte. Tento počítač zvláda viacvláknové 
+aplikácie lepšie (o 6 rokov modernejšia architektúra), no 
+vzhľadom na zachovanie kompaktnosti sme opäť viacvláknové verzie algoritmov z 
+testov vynechali.
+
+Neskoršia práca s externými knižnicami HPPC časy zrýchlila, čo bohužiaľ nie je 
+zachované v žiadnej z uvedených tabuliek.
+
+\section{\Java\ verzus \cpp}
+
+Zo začiatku implementácie nebolo jasné, ktorý programovací jazyk bude použitý. 
+Ako prvý sa zvolil jazyk \Java. Keďže prevláda povedomie, že interpretovaný 
+programovací jazyk (\Java) nemôže byť rýchlejší ako kopmilovaný programovací 
+jazyk (\cpp), tak sme sa v priebehu implementácie rozhodli, že skúsime 
+naprogramovať niektoré algoritmy aj v jazyku \cpp. Ako vidno z porovnania časov 
+behov jednotlivých algoritmov v tabuľkách \ref{table:cpp} a 
+\ref{table:java-stare}, jazyk \cpp\ neposkytuje žiadne 
+výrazné zrýchlenie. Spolu s faktom, že na porovnanie jednotlivých algoritmov až 
+tak rýchlosť netreba, sme sa rozhodli, že budeme pokračovať vo vývoji v jazyku 
+\Java.
+
+\section{Spôsob testovania}
+
+Keďže programovací jazyk \Java\ robí optimalizácie kódu počas behu a triedy 
+inicializuje "lenivo", tak je potrebné algoritmus spustiť viackrát, aby ukázal 
+relevantné výsledky. Algoritmus teda necháme spustiť trikrát a zoberieme tretí 
+výsledok. Rozhodnutie je vecou pozorovania. Je kompromisom medzi relevantnými 
+výsledkami a dĺžkou skúšania rôznych behov. Z časov nad 20 sekúnd je v 
+tabuľkách uvedený iba čas prvého behu algoritmu. 
+
+Rôzne algoritmy sme testovali na rôznych dátach. Najmä podľa toho, aké veľké 
+dáta vedeli spracovať v rozumnom čase. Testovacie dáta uvádzame v ďalšej časti.
+
+\section{Testovacie dáta}
+
+Testovacie dáta boli grafy rôznych veľkostí a štruktúr. Naše testovacie dáta sa 
+dajú rozdeliť do štyroch hlavných skupín. Podľa skupiny majú aj predponu. Sú to 
+tieto:
+
+\begin{itemize}
+	\item grafy tvorené prioritným pripájaním tvoriace Barabási-Albertov model 
+		-- majú predponu \texttt{ba-};
+	\item grafy tvorené hranami s náhodnou pravdepodobnosťou vzniku tvoriace 
+	náhodný model -- majú predponu \texttt{rnd-};
+	\item grafy vytvorené špeciálne podľa obrázka \ref{img:zle1} -- majú 
+		predponu \texttt{zle-};
+	\item grafy vytvorené z reálnych dát -- majú predponu \texttt{ca-}.
+\end{itemize}
+
+Grafy tvorené prioritným pripájaním boli vytvorené pomocou programu Network 
+Workbench. Ku grafu sa pridali v každom kroku dve hrany.
+Grafy tvorené náhodnou pravdepodobnosťou vzniku hrán boli taktiež pomocou 
+programu Network Workbench. Grafy boli vytvorené tak, aby mali približne 
+rovnakú hustotu ako grafy Barabási-Albertoveho modelu rovnakej veľkosti.
+Reálne dáta boli prevzaté zo stránky \url{http://snap.stanford.edu/data/}.
+
+Podľa počtu vrcholov majú názvy jednotlivých grafov príponu. Pre grafy 
+vytvorené prioritným pripájaním a náhodné grafy, číslo za predponou vyjadruje 
+počet vrcholov grafu. Pre grafy vytvorené podľa obrázka \ref{img:zle1} číslo 
+vyjadruje počet vrcholov na "hlavnej" ceste. Pre grafy reálnych dát boli čísla 
+zvolené umelo a nemajú žiaden význam. Všetky použité reálne dáta boli siete 
+citácií vedeckých publikácií.
+
+\section{Porovnanie algoritmov}
+
+V tejto časti porovnáme medzi sebou jednotlivé skupiny algoritmov. Začneme 
+algoritmami dávajúcimi presné výsledky, budeme pokračovať všeobecným porovnaním 
+a na koniec zhodnotíme jednotlivé heuristiky pažravého algoritmu.
+
+\subsection{Presné algoritmy}
+
+Do tejto kategórie spadajú algoritmy \alg{naive}, \alg{fnaive} a \alg{fproper}. 
+Boli implementované najmä kvôli prehľadu a získaniu veľkostí minimálnych 
+dominujúcich množín. Ako vidno zo všetkých tabuliek (\ref{table:java-stare}, 
+\ref{table:cpp} a aj \ref{table:java}), pri exaktných algoritmoch nemôžeme 
+rátať s tým, že sa dočkáme výsledkov na reálnych dátach.
+
+Môžeme však vidieť, že použitím vhodných úprav vieme posunúť veľkosť grafu, 
+kedy vieme vypočítať minimálnu dominujúcu množinu v rozumnom čase, zo zhruba 
+20 vrcholov na zhruba 100 vrcholov. Taktiež je dobré všimnúť si, že aj keď 
+algoritmus \alg{fproper} používa oveľa zložitejšie výpočty, tak čas behu 
+algoritmu to oveľa nezrýchli. Prevedenie na hľadanie maximálneho párenia 
+(respektíve minimálneho hranového pokrytia) je teda viac zlepšením teoretickej 
+zložitosti ako pomoc reálnemu behu algoritmu.
+
+Celkom zaujímavým je pozorovanie, že na neštruktúrovaných dátach (\texttt{rnd-} 
+grafy) mali algoritmy \alg{fnaive} a \alg{fproper} oveľa horší čas ako na 
+dátach so štruktúrou (\texttt{ba-} a \texttt{zle-} grafy).
+
+\subsection{Všeobecné porovnanie}
+
+Skôr ako sa pozrieme na celkové hodnotenie, tak sa môžeme pozrieť na algoritmy 
+\alg{ch7alg34OT} a \alg{ch7alg35OT}. V tabuľke \ref{table:java-stare} je vidno, 
+žo algoritmus \alg{ch7alg35OT} naozaj rieši uvedené problémy v časti 
+\ref{sec:dist}. Škoda, že sa nepodarilo vytvoriť prostredie pre distribuovaný 
+algoritmus.
+
+Celkovo si môžeme všimnúť (tabuľka \ref{table:java}), že algoritmy bežia 
+rýchlejšie na štruktúrovaných dátach (\texttt{ba-} a \alg{zle-}) okrem 
+algoritmu \alg{ch7alg33OT}, ktorý beží lepšie na neštruktúrovaných dátach 
+(\texttt{rnd-}). 
+
+Keďže štruktúrované aj neštruktúrované dáta majú pomerne rovnakú hustotu hrán, 
+tak sme neporovnávali algoritmy na rôzne hustých grafoch.
+
+\subsection{Porovnanie hauristík pažravých algoritmov}
+
+Zatiaľ sme sa pozerali čisto iba na časy. No pri porovnávaní reálnych časov 
+pažravých algoritmov nám o rýchlosti veľa prezradí aj veľkosť výslednej 
+množiny. Veľkosti výslednej množiny sú uvedené v tabuľke \ref{table:size}. 
+Za príklad si môžeme zobrať trebárs základný algoritmus \alg{greedy}. Tam, 
+kde mal menšiu výslednú množinu, tam mal aj nižší čas. Napríklad, pre grafy 
+\texttt{ba20k} a \texttt{rnd20k} bol rozdiel vo veľkosti nájdených množín 1347. 
+To znamená, že sa základný cyklus musel zopakovať oveľa viac krát, čo vyústilo 
+do horšieho času algoritmu. Keďže všetky verzie pažravého algoritmu až na 
+verziu \alg{flower} mali na začiatku behu algoritmu (pred opakujúcim sa cyklom) 
+takmer nulové predpočítavanie rôznych hodnôt, respektíve vyberanie vrcholov do 
+výsledku, Tak je tento trend badať na všetkých algoritmoch. 
+
+Algoritmus \alg{flower} je v tomto smere výnimkou. Keďže si predpočítava 
+susednosť do vzdialenosti tri a grafy tvorené Barabási-Albertovým modelom sú 
+viac spojité ako náhodné grafy, tak sa počet opakovaní následného cyklu prejaví 
+až pri grafoch s veľkým počtom vrcholov (v našom prípade \texttt{-20k}).
+
+Keďže v Barabási-Albertovom modely sa každý nový vrchol spojí s práve (v našom 
+prípade) dvoma inými, tak nevznikajú výhonky. Taktiež nie je šanca ani na 
+vytvorenie kvetov. Takže veľa heuristík založených na odstraňovaní výhonkov a 
+kvetov nič neodstráni a teda výsledkom je taká istá množina ako pri základnom 
+pažravom algoritme.
+
+\subsection{Porovnanie pažravých algoritmov na reálnych dátach}
+
+V reálnych dátach je situácia iná ako v modelových. V reálnych dátach sa tvoria 
+malé lokálne klastre, ktoré sú občas hustejšie prepojené a vytvoria kvet. 
+Taktiež je šanca, že nejaký vrchol bude izolovaný alebo takmer izolovaný. Teda 
+má zmysel vytvárať heuristiky na základe vyberania výhonkov a kvetov. Keďže 
+reálne siete mali nad 5000 vrcholov, iné ako pažravé algoritmy nebolo možné 
+testovať. Výsledky testovania sú uvedené v tabuľke \ref{table:real}. 
+
+Algoritmy \alg{ch7alg33} a \alg{greedyq} boli navrhnuté s tým, že budú bežať 
+rýchlejšie, ale aj oveľa nepresnejšie, čo sa potvrdilo. Bohužiaľ miera 
+nepresnosti na reálnych dátach je príliš veľká na akékoľvek použitie.
+
+Najjednoduchší pažravý algoritmus (\alg{greedy}) dáva 
+prekvapivo veľmi dobré výsledky. Je prekonaný iba algoritmom \alg{greedysw}, 
+ktorý je rozšírením jednoduchého pažravého algoritmu iba o vhodný spôsob 
+výberu vrchola. Najzložitejší, algoritmus \alg{flower}, síce našiel najmenšiu 
+dominújúcu množinu spomedzi testovaných algoritmov na dvoch grafoch 
+(\texttt{ca1} a \texttt{ca22}), ale mal horšie časy. 
+
+Grafy \texttt{ca22} a \texttt{ca3} sú hustejšie ako ostatné, čo sa prejavilo aj 
+na pomalom behu algoritmu \alg{greedysw}.
+
+\section{Tabuľky}
+
+V tejto časti sa nachádzajú tabuľky zobrazujúce výsledky z testovania 
+algoritmov.
 
 \begin{table}[h]
+	\centering
+	\begin{tabular}{lllll}
+		\hline
+		& naive & greedy & ch7alg33 & ch7alg34OT \\ \hline
+		ba10    & 0     & 0      & 0        & 0          \\
+		ba18    & 1     & 0      & 0        & 0          \\
+		ba20    & 4,37  & 0      & 0        & 0          \\
+		ba100   &       & 0      & 0        & 0          \\
+		ba200   &       & 0      & 0,01     & 0,06       \\
+		ba1000  &       & 0      & 0        & 1,28       \\
+		ba2000  &       & 0,01   & 0,02     & 5,15       \\
+		ba10k   &       & 0,08   & 0,51     & 120,32     \\
+		ba20k   &       & 0,29   & 2,68     &            \\
+		ba100k  &       & 6,52   & 147,56   &            \\
+		rnd100  &       & 0      & 0        & 0,03       \\
+		rnd200  &       & 0      & 0        & 0,04       \\
+		rnd1000 &       & 0      & 0        & 0,21       \\
+		rnd10k  &       & 0,07   & 0,53     & 5,6        \\
+		zly10   &       & 0      & 0        & 0          \\
+		zly20   &       & 0      & 0        & 0,01       \\
+		zly100  &       & 0,02   & 0,22     & 4,72       \\ \hline
+	\end{tabular}
+	\caption{Výsledky behov algoritmov v jazyku \cpp\ na staršom počítači. Výsledky sú uvedené v sekundách.}
+	\label{table:cpp}
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lllllllll}
+		\hline
+		         & ca1 - |S| & ca1 - čas & ca2 - |S| & ca2 - čas & ca22 - |S| & ca22 - čas & ca3 - |S| & ca3 - čas \\ \hline
+		greedy   & 1176      & 0,124     & 2009      & 0,578     & 2275       & 0,330      & 3694      & 1,311     \\
+		ch7alg33 & 1570      & 0,070     & 3243      & 0,121     & 3230       & 0,099      & 5651      & 0,392     \\
+		greedyQ  & 1586      & 0,034     & 3239      & 0,087     & 3243       & 0,080      & 5625      & 0,319     \\
+		greedysr & 1803      & 0,072     & 3100      & 0,340     & 3667       & 0,118      & 5553      & 0,708     \\
+		greedysw & 1159      & 0,348     & 1989      & 1,613     & 2258       & 1,022      & 3649      & 3,548     \\
+		floweru  & 1329      & 0,111     & 2131      & 0,511     & 2501       & 0,313      & 3920      & 1,196     \\
+		flower   & 1157      & 0,293     & 2018      & 2,406     & 2256       & 0,591      & 3774      & 2,830     \\ \hline
+	\end{tabular}
+	\caption{\emph{Testovanie rôznych heuristík na dátach z reálneho sveta.} %
+		V stĺpci |S| je veľkosť nájdenej množiny. Čas je uvedený v sekundách.}
+	\label{table:real}
+\end{table}
+
+\begin{table}[h]
+	\centering
 	\begin{tabular}{lllllllll}
 		\hline
 		& naive & greedy & greedyQ & ch7alg33 & ch7alg34OT & ch7alg35OT & fnaive   & fproper \\ \hline
-		ba10    & 0.085 & 0.001  & 0.002   & 0        & 0.003      & 0.004      & 0.008    & 0.009   \\
-		ba18    & 1.284 & 0.001  & 0.002   & 0        & 0.013      & 0.008      & 0.035    & 0.035   \\
-		ba20    & 4.44  & 0.001  & 0.002   & 0        & 0.011      & 0.008      & 0.049    & 0.047   \\
-		ba100   & -     & 0.015  & 0.004   & 0.004    & 0.07       & 0.045      & 0.473    & 0.506   \\
-		ba200   &       & 0.026  & 0.006   & 0.009    & 0.135      & 0.073      & 30.515   & 30.412  \\
-		ba1000  &       & 0.087  & 0.045   & 0.037    & 0.883      & 0.512      &          &         \\
-		ba2000  &       & 0.142  & 0.095   & 0.053    & 2.524      & 0.988      &          &         \\
-		ba10k   &       & 1.844  & 0.362   & 0.54     & 45.781     & 6.662      &          &         \\
-		ba20k   &       & 8.813  & 1.294   & 3.8      &            & 22.256     &          &         \\
-		ba100k  &       & 66762  & 68.669  & 135.197  &            &            &          &         \\
-		rnd10   &       & 0.001  & 0.002   &          &            &            & 0.003    & 0.003   \\
-		rnd15   &       & 0.001  & 0.002   &          &            &            & 0.048    & 0.043   \\
-		rnd20   &       & 0.001  & 0.002   &          &            &            & 0.107    & 0.112   \\
-		rnd100  &       & 0.011  & 0.004   &          &            &            & 1293.811 & 1302.94 \\
-		rnd200  &       & 0.032  & 0.008   &          &            &            &          &         \\
-		rnd1000 &       & 0.072  & 0.043   &          &            &            &          &         \\
-		rnd2000 &       & 0.114  & 0.096   &          &            &            &          &         \\
-		rnd10k  &       & 2.484  & 0.44    &          &            &            &          &         \\
-		rnd20k  &       & 11.281 & 1.671   & 4.947    &            &            &          &         \\
-		zly10   &       & 0.005  & 0.003   & 0.003    & 0.04       & 0.018      & 0.119    & 0.117   \\
-		zly20   &       & 0.022  & 0.01    & 0.022    & 0.098      & 0.036      & 0.809    & 0.814   \\
-		zly100  &       & 0.09   & 0.151   & 0.21     & 6.213      & 2.107      &          &         \\ \hline
+		ba10    & 0,085 & 0,001  & 0,002   & 0        & 0,003      & 0,004      & 0,008    & 0,009   \\
+		ba18    & 1,284 & 0,001  & 0,002   & 0        & 0,013      & 0,008      & 0,035    & 0,035   \\
+		ba20    & 4,440 & 0,001  & 0,002   & 0        & 0,011      & 0,008      & 0,049    & 0,047   \\
+		ba100   &       & 0,015  & 0,004   & 0,004    & 0,070      & 0,045      & 0,473    & 0,506   \\
+		ba200   &       & 0,026  & 0,006   & 0,009    & 0,135      & 0,073      & 30,515   & 30,412  \\
+		ba1000  &       & 0,087  & 0,045   & 0,037    & 0,883      & 0,512      &          &         \\
+		ba2000  &       & 0,142  & 0,095   & 0,053    & 2,524      & 0,988      &          &         \\
+		ba10k   &       & 1,844  & 0,362   & 0,540    & 45,781     & 6,662      &          &         \\
+		ba20k   &       & 8,813  & 1,294   & 3,800    &            & 22,256     &          &         \\
+		ba100k  &       & 66,762 & 68,669  & 135,197  &            &            &          &         \\
+		rnd10   &       & 0,001  & 0,002   &          &            &            & 0,003    & 0,003   \\
+		rnd15   &       & 0,001  & 0,002   &          &            &            & 0,048    & 0,043   \\
+		rnd20   &       & 0,001  & 0,002   &          &            &            & 0,107    & 0,112   \\
+		rnd100  &       & 0,011  & 0,004   &          &            &            & 1293,811 & 1302,940\\
+		rnd200  &       & 0,032  & 0,008   &          &            &            &          &         \\
+		rnd1000 &       & 0,072  & 0,043   &          &            &            &          &         \\
+		rnd2000 &       & 0,114  & 0,096   &          &            &            &          &         \\
+		rnd10k  &       & 2,484  & 0,440   &          &            &            &          &         \\
+		rnd20k  &       & 11,281 & 1,671   & 4,947    &            &            &          &         \\
+		zly10   &       & 0,005  & 0,003   & 0,003    & 0,040      & 0,018      & 0,119    & 0,117   \\
+		zly20   &       & 0,022  & 0,010   & 0,022    & 0,098      & 0,036      & 0,809    & 0,814   \\
+		zly100  &       & 0,090  & 0,151   & 0,210    & 6,213      & 2,107      &          &         \\ \hline
 	\end{tabular}
+	\caption{Výsledky behov algoritmov v jazyku \Java\ na staršom počítači. Výsledky sú uvedené v sekundách.}
+	\label{table:java-stare}
 \end{table}
 
 \begin{landscape}
-	\begin{table}[h]
-		\centering
-		\begin{tabular}{lllllllll}
-			& naive & greedy & greedyQ & ch7alg33 & ch7alg34OT & ch7alg35OT & fnaive   & fproper \\
-			ba10    & 0.085 & 0.001  & 0.002   & 0        & 0.003      & 0.004      & 0.008    & 0.009 \\
-			ba18    & 1.284 & 0.001  & 0.002   & 0        & 0.013      & 0.008      & 0.035    & 0.035 \\
-			ba20    & 4.44  & 0.001  & 0.002   & 0        & 0.011      & 0.008      & 0.049    & 0.047 \\
-			ba100   & -     & 0.015  & 0.004   & 0.004    & 0.07       & 0.045      & 0.473    & 0.506 \\
-			ba200   &       & 0.026  & 0.006   & 0.009    & 0.135      & 0.073      & 30.515   & 30.412 \\
-			ba1000  &       & 0.087  & 0.045   & 0.037    & 0.883      & 0.512      &          & \\
-			ba2000  &       & 0.142  & 0.095   & 0.053    & 2.524      & 0.988      &          & \\
-			ba10k   &       & 1.844  & 0.362   & 0.54     & 45.781     & 6.662      &          & \\
-			ba20k   &       & 8.813  & 1.294   & 3.8      &            & 22.256     &          & \\
-			ba100k  &       & 66762  & 68.669  & 135.197  &            &            &          & \\
-			rnd10   &       & 0.001  & 0.002   &          &            &            & 0.003    & 0.003 \\
-			rnd15   &       & 0.001  & 0.002   &          &            &            & 0.048    & 0.043 \\
-			rnd20   &       & 0.001  & 0.002   &          &            &            & 0.107    & 0.112 \\
-			rnd100  &       & 0.011  & 0.004   &          &            &            & 1293.811 & 1302.94 \\
-			rnd200  &       & 0.032  & 0.008   &          &            &            &          & \\
-			rnd1000 &       & 0.072  & 0.043   &          &            &            &          & \\
-			rnd2000 &       & 0.114  & 0.096   &          &            &            &          & \\
-			rnd10k  &       & 2.484  & 0.44    &          &            &            &          & \\
-			rnd20k  &       & 11.281 & 1.671   & 4.947    &            &            &          & \\
-			zly10   &       & 0.005  & 0.003   & 0.003    & 0.04       & 0.018      & 0.119    & 0.117 \\
-			zly20   &       & 0.022  & 0.01    & 0.022    & 0.098      & 0.036      & 0.809    & 0.814 \\
-			zly100  &       & 0.09   & 0.151   & 0.21     & 6.213      & 2.107      &          & 
-		\end{tabular}
-	\end{table}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lllllllllllll}
+		\hline
+		& naive & greedy & greedyQ & ch7alg33 & greedysr & greedysw & floweru & flower & ch7alg34OT & ch7alg35OT & fnaive & fproper \\ \hline
+		ba10    & 2     & 2      & 2       & 2        & 2        & 2        & 2       & 2      & 6          & 6          & 2      & 2       \\
+		ba18    & 4     & 4      & 6       & 6        & 5        & 4        & 4       & 4      & 9          & 11         & 4      & 4       \\
+		ba20    & 4     & 4      & 7       & 5        & 6        & 4        & 4       & 5      & 10         & 11         & 4      & 4       \\
+		ba100   &       & 17     & 33      & 31       & 17       & 17       & 17      & 18     & 54         & 61         & 15     & 15      \\
+		ba200   &       & 32     & 59      & 56       & 31       & 35       & 31      & 31     & 102        & 113        & 29     & 29      \\
+		ba1000  &       & 142    & 284     & 290      & 147      & 151      & 147     & 146    & 515        & 558        &        &         \\
+		ba2000  &       & 276    & 570     & 577      & 273      & 284      & 273     & 274    & 1005       & 1091       &        &         \\
+		ba10k   &       & 1393   & 2901    & 2974     & 1391     & 1465     & 1391    & 1390   & 5094       & 5593       &        &         \\
+		ba20k   &       & 2828   & 5749    & 5896     & 2828     & 2942     & 2828    & 2817   &            & 11093      &        &         \\
+		ba100k  &       & 13947  & 29378   & 29375    & 13947    & 14656    & 13947   & 13928  &            &            &        &         \\
+		rnd10   & 2     & 2      & 2       & 2        & 2        & 2        & 2       & 2      & 7          &            & 2      & 2       \\
+		rnd15   & 3     & 4      & 3       & 4        & 3        & 3        & 3       & 3      & 10         &            & 3      & 3       \\
+		rnd20   & 4     & 4      & 5       & 5        & 4        & 5        & 4       & 4      & 15         &            & 4      & 4       \\
+		rnd100  &       & 21     & 28      & 24       & 22       & 22       & 19      & 19     & 62         &            & 18     & 18      \\
+		rnd200  &       & 41     & 52      & 53       & 40       & 39       & 40      & 39     & 126        &            &        &         \\
+		rnd1000 &       & 201    & 284     & 281      & 202      & 210      & 200     & 199    & 633        &            &        &         \\
+		rnd2000 &       & 411    & 541     & 552      & 414      & 411      & 404     & 399    & 1272       &            &        &         \\
+		rnd10k  &       & 2083   & 2775    & 2760     & 2122     & 2098     & 2035    & 2024   & 6325       &            &        &         \\
+		rnd20k  &       & 4175   & 5560    & 5542     & 4279     & 4193     & 4091    & 4053   &            &            &        &         \\
+		zly10   &       & 10     & 35      & 35       & 10       & 10       & 10      & 10     & 10         & 10         & 10     & 10      \\
+		zly20   &       & 20     & 120     & 120      & 20       & 20       & 20      & 20     & 20         & 20         & 20     & 20      \\
+		zly100  &       & 100    & 2600    & 2600     & 100      & 100      & 100     & 100    & 100        & 100        &        &         \\ \hline
+	\end{tabular}
+	\caption{Veľkosti nájdených dominujúcich množín pre daný graf a algoritmus.}
+	\label{table:size}
+\end{table}
+
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{llllllllllll}
+		\hline
+		& naive & greedy & greedyQ & ch7alg33 & greedysr & greedysw & floweru & flower & ch7alg34OT & fnaive  & fproper \\ \hline
+		ba10    & 0,010 & 0      & 0       & 0        & 0        & 0        & 0       & 0,001  & 0,001      & 0,001   & 0,001   \\
+		ba18    & 0,331 & 0      & 0       & 0        & 0        & 0        & 0       & 0,001  & 0,001      & 0,001   & 0,001   \\
+		ba20    & 1,321 & 0      & 0       & 0        & 0        & 0        & 0       & 0,001  & 0,001      & 0,001   & 0,001   \\
+		ba100   &       & 0,003  & 0       & 0,002    & 0,001    & 0,003    & 0,001   & 0,004  & 0,016      & 0,084   & 0,145   \\
+		ba200   &       & 0,004  & 0       & 0,003    & 0,001    & 0,006    & 0,001   & 0,007  & 0,043      & 15,595  & 15,577  \\
+		ba1000  &       & 0,021  & 0,003   & 0,013    & 0,011    & 0,040    & 0,011   & 0,046  & 0,358      &         &         \\
+		ba2000  &       & 0,047  & 0,008   & 0,025    & 0,024    & 0,740    & 0,025   & 0,090  & 1,322      &         &         \\
+		ba10k   &       & 0,308  & 0,079   & 0,115    & 0,251    & 0,933    & 0,249   & 0,952  & 21,37      &         &         \\
+		ba20k   &       & 0,987  & 0,290   & 0,410    & 0,837    & 3,097    & 0,873   & 3,368  &            &         &         \\
+		ba100k  &       & 19,602 & 6,831   & 19,201   & 21,315   & 65,587   & 20,743  & 60,146 &            &         &         \\
+		rnd10   & 0,011 & 0      & 0       & 0        & 0        & 0        & 0       & 0      & 0          & 0       & 0       \\
+		rnd15   & 0,058 & 0      & 0       & 0        & 0        & 0        & 0       & 0      & 0          & 0       & 0       \\
+		rnd20   & 1,445 & 0      & 0       & 0        & 0        & 0        & 0       & 0      & 0          & 0,001   & 0,001   \\
+		rnd100  &       & 0,003  & 0       & 0        & 0        & 0        & 0       & 0,001  & 0,002      & 634,429 & 631,217 \\
+		rnd200  &       & 0,004  & 0       & 0,001    & 0        & 0,001    & 0       & 0,002  & 0,008      &         &         \\
+		rnd1000 &       & 0,019  & 0,001   & 0,007    & 0,004    & 0,015    & 0,004   & 0,016  & 0,105      &         &         \\
+		rnd2000 &       & 0,045  & 0,004   & 0,020    & 0,013    & 0,048    & 0,013   & 0,048  & 0,303      &         &         \\
+		rnd10k  &       & 0,384  & 0,101   & 0,120    & 0,294    & 0,984    & 0,313   & 0,929  & 2,827      &         &         \\
+		rnd20k  &       & 1,337  & 0,390   & 0,478    & 1,224    & 3,833    & 1,260   & 3,703  &            &         &         \\
+		zly10   &       & 0      & 0       & 0        & 0        & 0        & 0       & 0      & 0          & 0       & 0       \\
+		zly20   &       & 0      & 0       & 0        & 0        & 0        & 0       & 0,001  & 0,001      & 0,009   & 0,006   \\
+		zly100  &       & 0,027  & 0,016   & 0,037    & 0,003    & 0,100    & 0,011   & 0,088  & 0,662      &         &         \\ \hline
+	\end{tabular}
+	\caption{Výsledky behov algoritmov v jazyku \Java\ na novšom počítači. Výsledky sú uvedené v sekundách.}
+	\label{table:java}
+\end{table}
 \end{landscape}
