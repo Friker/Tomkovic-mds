@@ -3,8 +3,69 @@
 \addcontentsline{toc}{chapter}{Záver}
 \chapter*{Záver}\label{chap:zaver}
 
-V práci sme popísali niektoré algoritmy a porovnali ich implementácie. 
-Fomin \citep{fomin05} napísal dobrú prácu... \ldots
+V práci sme sa snažili naplniť ciele zadania. A to spraviť prehľad algoritmov 
+hľdajúcich minimálne dominujúce množiny a skúsiť vylepšiť niektoré algoritmy, 
+ktoré hľadajú minimálne dominujúce množiny na sieťach malého sveta. 
+
+V kapitole \ref{chap:definicie} sme popísali základné pojmy a uviedli čitateľa 
+do problematiky grafov, komplexných sietí a hľadania minimálnej dominujúcej 
+množiny. Kapitolu \ref{chap:algoritmy} sme začali spísaním prehľadu súčasných 
+základných existujúcich algoritmov na hľadanie minimálnej dominujúcej množiny. 
+Ďalej sme v tejto kapitole načrtli výhody v prípade, že vstupným grafom je 
+komplexná sieť. Nakoniec sme navrhli niekoľko heuristík, o ktorých sme 
+predpokladali, že nejako zlepšia čas behu alebo výsledky algoritmov. Keďže 
+sme sa v práci chceli zaoberať dátami z reálneho sveta, zvolili sme si 
+heuristiky na zlepšenie tých algoritmov, ktoré majú šancu spracovať také veľké 
+dáta.
+
+V kapitolách \ref{chap:popis} a \ref{chap:implementacia} sme popísali návrh a 
+implementáciu softvéru. Preskúmali sme existujúce riešenia a na základe analýzy 
+navrhli, ako by mala implementačná časť práce vyzerať.
+Softvér nakonie nenadväzoval na žiadne predošlé práce, aj keď 
+používal pomocnú knižnicu (HPPC) na uchovanie základných dátových štruktúr. 
+V konečnom dôsledku malo použitie externej knižnice pozitívny dopad. 
+Implementačnú časť práce sme sa rozhodli spraviť samostatne a nenadväzovať 
+kvôli úzkej špecifikácií algoritmov a pohodlnosti práce s vlastnými 
+zložitejšími dátovými a programovými štruktúrami oproti existujúcim riešeniam.
+
+V kapitole \ref{chap:vysledky} sme opísali výsledky z implementácie softvéru a 
+porovnali sme algoritmy medzi sebou a na rôznych dátach, včetne reálnych sietí 
+citácií. Z navrhovaných heuristík mala každá svoje slabé a silné miesta. 
+Čo dáva priestor na ďalšie zlepšovania. 
+
+V ďalšej činnosti je vhodné zamerať sa podrobnejšie na to, aké heuristiky 
+dávajú lepšie výsledky pre rôzne typy dát ako napríklad hustejšie/redšie grafy, 
+grafy s väčšou/menšou klasterizáciou alebo trebárs rôzne spôsoby vyberania 
+výhonkov. To by umožňovalo vzniku možno lepšej heuristiky (či už z pohľadu času 
+alebo veľkosti nájdenej množiny) alebo kombinovaného algoritmu s využitím 
+viacerých heuristík (podobne ako naša verzia \alg{flower}).
+
+V tejto práci sme nevyužili vedomosť, že siete malého sveta sú síce odolné voči 
+náhodným útokom, no zraniteľné cielenými útokmi v tom zmysle, že ich vieme 
+odobratím malého počtu hrán rozdeliť na viacero komponentov. Je možné, že keby 
+sme vedeli, tieto hrany efektívne určiť, mohli by sme skúmať, ako dôležité sú 
+vrcholy, ktoré sú incidentné s hranou a na základe toho ich prioritne ne/vybrať 
+do výslednej množiny.
+
+Vďaka tomu, že vieme, že siete malého sveta sú riedke grafy, môžeme tieto grafy 
+rozdeliť na množinu stromov, na ktorých sa minimálna dominujúca množina hľadá 
+ľahšie. Je však otázne, ako vyriešiť vrcholy, v ktorých tieto stromy v pôvodnom 
+grafe susedia. Aj keď sa tento prístup zdá byť prijateľný, tak vieme, že siete 
+malého sveta majú veľa lokálnych klastrov a pridelení týchto klastrov by 
+vznikalo veľa stromov, čo by mohlo viesť ku vybratiu veľa "zbytočných" 
+vrcholov. Vďaka tejto komplikácií a tomu, že sa tento spôsob riešenia výrazne 
+odlišuje od zvyšných, sme takýto postup hľadania minimálnej dominujúcej množiny 
+nakoniec vynechali.
+
+Veľmi potešujúce však je, že sme našli heuristiku, ktorá na všetkých 
+testovaných reálnych dátach prekonala veľkosťou dominujúcej množiny 
+jednoduchý pažravý algoritmus (verzia \alg{greedysw}). Iba o trochu viac 
+sofistikovaný spôsob vyberania (uprednostňuj vrcholy, ktoré svojím vybratím 
+čo najviac zmenšia množinu vrcholov, ktoré majú nejakého bieleho suseda) 
+dosiahol zlepšenie. Zlepšenie sa nepodarilo vždy pri algoritme so zložitejšou 
+štruktúrou -- verzii \alg{flower}.
+Tento výsledok odráža skutočnosť, že často algoritmy s 
+jednoduchou štruktúrou bývajú tým najšťastnejším riešením.
 
 \begin{comment}
 dátové štruktúry union-find, písmenkový strom a sufixový 
