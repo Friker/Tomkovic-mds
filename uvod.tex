@@ -15,73 +15,34 @@ svete vznikajú inak ako náhodne a tak sa vedci snažili o vernejší popis
 modelmi, ktoré by zachytávali vlastnosti reálnych sietí. Siete malého sveta 
 boli spopularizované po tom, ako Stenley Milgram spravil výskum, v ktorom 
 potvrdzoval tézu, že v Spojených Štátoch amerických sa všetci 
-ľudia poznajú vo väčšine cez najviac šiestich známych \citep{kochen}.
+ľudia poznajú vo väčšine cez najviac šiestich známych \citep{kochen}. Na to 
+popísali \citet{barabasi:albert} bezškálové siete, ktoré boli charakteristické 
+krátkymi cestami medzi náhodnými dvojicami vrcholov, podobnosťou na rôznych 
+škálach a odolnosťou proti náhodným útokom \citep{barabasi:albert:2}.
+
+Reálne siete môžeme skúmať z viacerých pohľadov. Jedným z nich je aj hľadanie 
+množiny vrcholov, ktoré sú pre danú sieť významné. Pre sieť kontaktov to budú 
+ľudia, ktorý majú tých kontaktov najviac, pre sieť stretnutí sa rôznych ľudí 
+to môžu byť ľudia, ktorý sa stretli s veľa inými ľuďmi a podobne. V týchto 
+úlohách často hľadáme nejakým spôsobom vrcholy s najväčším stupňom alebo 
+množinu, ktorá má za susedov všetkých ostatných ľudí. Takáto množina sa nazýva 
+minimálna dominujúca množina. Ide o známu úlohu z teórie grafov, ktorého 
+rozhodovacia verzia je NP-úplný problém \citep{npcomp}. Keďže reálne siete sa 
+skladajú z tisícov vrcholov, výpočtová sila súčasnosti nestačí na presné 
+riešenie týchto problémov. Preto je momentálnym riešením použitie 
+aproximačných alebo pažravých algoritmov. Keďže považujeme túto tému za 
+zaujímavú, rozhodli sme sa preskúmať bližšie rôzne heuristiky pažravého 
+algoritmu. Taktiež výsledky z algoritmov dosiahnuté v tejto práci môžu pomôcť 
+iným prácam k lepšiemu vstupu/spracovaniu, napríklad k práci, ktorú napísala 
+Dana \citet{sunikova}.
+
+Práca je rozdelená do piatich kapitol. Najprv zadefinujeme rôzne pojmy, ktoré 
+v práci používame. To spravíme v kapitole~\ref{chap:definicie}. Potom uvedieme 
+prehľad existujúcich algoritmov na hľadanie minimálnych dominujúcich množín 
+(kapitola~\ref{chap:algoritmy}). Následne v kapitolách \ref{chap:popis} a 
+\ref{chap:implementacia} popíšeme návrh a implementáciu softvéru. Výsledky 
+implementačnej práce zhrnieme v kapitole~\ref{chap:vysledky}.
 
 
 
-\begin{comment}
-Ukážka nášho softvéru \emph{Gnarley Trees} je na obrázku~\ref{img:historia}.
-Tento projekt začal ako bakalárska práca Jakuba Kováča \citep{kuko};
-v tejto práci popisujeme nové dátové štruktúry, ktoré sme vizualizovali
-a nové funkcie a vylepšenia, ktoré sme doplnili. Konkrétne ide o 
-\emph{union-find problém}, \emph{písmenkový strom (trie)} a 
-\emph{sufixový strom}. 
 
-Softvér v súčasnosti vyvíja okrem Kuba Kováča aj Katka Kotrlová, ktorá 
-vizualizovala rôzne typy háld a intervalové stromy, Táňa Tóthová, ktorá 
-vizualizovala \emph{finger tree} a \emph{B$^+$-strom}.
-Okrem vizualizácie softvér prerábame a neustále vylepšujeme.
-Pavol Lukča ho doplnil o históriu krokov a operácií. Softvér je celý v 
-slovenčine aj angličtine a je 
-implementovaný v jazyku \Java. Dostupný je na stránke
-{\url{http://people.ksp.sk/~kuko/gnarley-trees}} vo forme appletov
-s jednotlivými dátovými štruktúrami, a tiež vo forme samostatného programu,
-ktorý obsahuje všetky dátové štruktúry a je určený na používanie offline.
-
-Našou snahou je vytvoriť kvalitný softvér nezávislý od operačného systému, 
-ktorý bude vyhovovať ako pomôcka pri výučbe ako aj pri samoštúdiu a bude
-voľne prístupný. 
-
-%\bigskip
-Predchádzajúci výskum v oblasti pedagogiky
-zatiaľ nedokázal úplne preukázať pedagogickú efektívnosť
-vizualizácií \citep{shaffer}, avšak viacero štúdií potvrdilo zvýšený záujem
-a zapojenosť študentov \citep{naps02, hundhausen02}.
-
-Rozmach vizualizácie algoritmov priniesla najmä \Java\ a jej fungovanie 
-bez viazanosti na konkrétny operačný systém. Kvalita iných existujúcich 
-vizualizácií sa líši a keďže ide o ľahko naprogramovateľné programy, je ich 
-veľa a sú pomerne nekvalitné \citep{shaffer}. 
-Zbieraním a analyzovaním kvality sa venuje skupina AlgoViz (\hbox{\url{http://algoviz.org/}}).
-
-Zaujímavé je pozorovanie, že určovanie si vlastného tempa pri vizualizácií 
-je veľká pomôcka. Naopak, ukazovanie pseudokódu alebo nemožnosť určenia si
-vlastného tempa (napríklad animácia bez možnosti pozastavenia), takmer 
-žiadne zlepšenie neprináša \citep{shaffer,saraiya}.
-
-%\bigskip
-% Zvyšok článku je organizovaný nasledovne: V sekcií 2 popisujeme implementované
-% vylepšenia týkajúce sa vizualizácie, grafiky a ovládania, v sekciách 3 až 6
-% nové dátové štruktúry, ktoré sme implementovali a vizualizovali: vyvážené
-% stromy, haldy, union-find a písmenkové stromy.
-
-Prácu sme rozdelili na popis jednotlivých dátových štruktúr, ktoré sme 
-vizualizovali a popis samotného softvéru. V kapitolách~
-\ref{chap:uf}, \ref{chap:trie} a \ref{chap:sx} je postupne popis 
-\emph{union-find}, \emph{písmenkového stromu} a \emph{sufixového stromu}. 
-V~kapitole~\ref{chap:popis} je popis softvéru a 
-v~kapitole~\ref{chap:implementacia} je implementácia.
- 
-\begin{figure}
-\centering
-\greybox{%
-\includegraphics[width=\columnwidth]{obrazky/gt.png}%
-}
-\caption{\emph{Softvér Gnarley Trees.} V ovládacom paneli dole môže používateľ
-zvoliť operáciu a vstupnú hodnotu a sledovať priebeh algoritmu (zobrazené je vkladanie
-prvku 47). Používateľ postupuje vlastným tempom  pomocou tlačidiel \uv{Ďalej} alebo
-\uv{Späť}. Vpravo je popis vykonávaných krokov; kliknutím na konkrétny krok v histórií
-sa môže používateľ vrátiť.}
-\label{img:historia} 
-\end{figure}
-\end{comment}
