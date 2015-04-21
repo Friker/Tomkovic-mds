@@ -33,12 +33,15 @@ porovnali sme algoritmy medzi sebou a na rôznych dátach, včetne reálnych sie
 citácií. Z navrhovaných heuristík mala každá svoje slabé a silné miesta. 
 Čo dáva priestor na ďalšie zlepšovania. 
 
-V ďalšej činnosti je vhodné zamerať sa podrobnejšie na to, aké heuristiky 
-dávajú lepšie výsledky pre rôzne typy dát ako napríklad hustejšie/redšie grafy, 
-grafy s väčšou/menšou klasterizáciou alebo trebárs rôzne spôsoby vyberania 
-výhonkov. To by umožňovalo vzniku možno lepšej heuristiky (či už z pohľadu času 
-alebo veľkosti nájdenej množiny) alebo kombinovaného algoritmu s využitím 
-viacerých heuristík (podobne ako naša verzia \alg{flower}).
+Veľmi potešujúce však je, že sme našli heuristiku, ktorá na všetkých 
+testovaných reálnych dátach prekonala veľkosťou dominujúcej množiny 
+jednoduchý pažravý algoritmus (verzia \alg{greedysw}). Iba o trochu viac 
+sofistikovaný spôsob vyberania (uprednostňuj vrcholy, ktoré svojím vybratím 
+čo najviac zmenšia množinu vrcholov, ktoré majú nejakého bieleho suseda) 
+dosiahol zlepšenie. Zlepšenie sa nepodarilo vždy pri algoritme so zložitejšou 
+štruktúrou -- verzii \alg{flower}.
+Tento výsledok odráža skutočnosť, že často algoritmy s 
+jednoduchou štruktúrou bývajú tým najvhodnejším riešením.
 
 V tejto práci sme nevyužili vedomosť, že siete malého sveta sú síce odolné voči 
 náhodným útokom, no zraniteľné cielenými útokmi v tom zmysle, že ich vieme 
@@ -57,15 +60,19 @@ vrcholov. Vďaka tejto komplikácií a tomu, že sa tento spôsob riešenia výr
 odlišuje od zvyšných, sme takýto postup hľadania minimálnej dominujúcej množiny 
 nakoniec vynechali.
 
-Veľmi potešujúce však je, že sme našli heuristiku, ktorá na všetkých 
-testovaných reálnych dátach prekonala veľkosťou dominujúcej množiny 
-jednoduchý pažravý algoritmus (verzia \alg{greedysw}). Iba o trochu viac 
-sofistikovaný spôsob vyberania (uprednostňuj vrcholy, ktoré svojím vybratím 
-čo najviac zmenšia množinu vrcholov, ktoré majú nejakého bieleho suseda) 
-dosiahol zlepšenie. Zlepšenie sa nepodarilo vždy pri algoritme so zložitejšou 
-štruktúrou -- verzii \alg{flower}.
-Tento výsledok odráža skutočnosť, že často algoritmy s 
-jednoduchou štruktúrou bývajú tým najvhodnejším riešením.
+V ďalšej činnosti je teda vhodné zamerať sa podrobnejšie na to, aké heuristiky 
+dávajú lepšie výsledky pre rôzne typy dát ako napríklad hustejšie/redšie grafy, 
+grafy s väčšou/menšou klasterizáciou alebo trebárs rôzne spôsoby vyberania 
+výhonkov. To by umožňovalo vzniku možno lepšej heuristiky (či už z pohľadu času 
+alebo veľkosti nájdenej množiny) alebo kombinovaného algoritmu s využitím 
+viacerých heuristík (podobne ako naša verzia \alg{flower}). Taktiež je vhodné 
+zamerať sa na dobré implementovanie distribuovaných algoritmov. Buď vylepšiť 
+algoritmy \alg{ch7alg34} a \alg{ch7alg35} tým, že lepšie využijeme nejaké 
+distribuované prostredie alebo skúsiť rozobrať distribuovanú verziu vynechaného 
+algoritmu rozdelenia grafu na stromy. Taktiež by v ďalšej práci bolo vhodné 
+výsledky vizualizovať. Vhodná vizualizácia by mohla pomôcť pri odstraňovaní 
+slabých miest heuristík a priniesť veľa podnetov na tvorbu ďalších heuristík.
+
 
 \cleardoublepage
 \phantomsection

@@ -50,7 +50,7 @@ tabuľkách uvedený iba čas prvého behu algoritmu.
 Rôzne algoritmy sme testovali na rôznych dátach. Najmä podľa toho, aké veľké 
 dáta vedeli spracovať v rozumnom čase. Testovacie dáta uvádzame v ďalšej časti.
 
-\section{Testovacie dáta}
+\section{Testovacie dáta}\label{sec:data}
 
 Testovacie dáta boli grafy rôznych veľkostí a štruktúr. Naše testovacie dáta sa 
 dajú rozdeliť do štyroch hlavných skupín. Podľa skupiny majú aj predponu. Sú to 
@@ -66,12 +66,26 @@ tieto:
 	\item grafy vytvorené z reálnych dát -- majú predponu \texttt{ca-}.
 \end{itemize}
 
-Grafy tvorené prioritným pripájaním boli vytvorené pomocou programu Network 
-Workbench. Ku grafu sa pridali v každom kroku dve hrany.
-Grafy tvorené náhodnou pravdepodobnosťou vzniku hrán boli taktiež pomocou 
-programu Network Workbench. Grafy boli vytvorené tak, aby mali približne 
-rovnakú hustotu ako grafy Barabási-Albertoveho modelu rovnakej veľkosti.
-Reálne dáta boli prevzaté zo stránky \url{http://snap.stanford.edu/data/}.
+Grafové modely sú taktiež popísané aj v časti \ref{sec:modely}. Grafy tvorené 
+prioritným pripájaním (podľa Barabási-Albertového modelu) boli 
+vytvorené pomocou programu Network Workbench. Ku grafu sa pridali v každom 
+kroku tri hrany.
+Grafy tvorené náhodnou pravdepodobnosťou vzniku hrán boli taktiež vytvorené 
+pomocou programu Network Workbench tak, že hrany sa tvorili s určitou 
+pravdepodobnosťou. Táto pravdepodobnosť bola nastavená tak, aby mali grafy 
+tvorené náhodne veľmi podobný priemerný stupeň (okolo 6) a teda aj hustotu ako 
+grafy vytvorené podľa Barabási-Albertového modelu rovnakej veľkosti. 
+
+Reálne dáta boli prevzaté zo stránky \url{http://snap.stanford.edu/data/} 
+\citep{snapnets}. Dáta predstavujú citácie prác ohľadne nejakého vedného oboru. 
+Všetky dáta sú spracované zo stránky \url{http://arxiv.org/}. Jednotlivé dáta 
+predstavujú spoluprácu v daných oboroch:
+\begin{enumerate}
+	\item dáta \texttt{ca1} zachytávajú citácie v oblasti všeobecnej teórie relativity;
+	\item dáta \texttt{ca2} -- jadrová a subjadrová fyzika;
+	\item dáta \texttt{ca22} -- jadrová a subjadrová fyzika, rozšírené;
+	\item dáta \texttt{ca3} -- fyzika tuhých látok.
+\end{enumerate}
 
 Podľa počtu vrcholov majú názvy jednotlivých grafov príponu. Pre grafy 
 vytvorené prioritným pripájaním a náhodné grafy, číslo za predponou vyjadruje 
@@ -173,11 +187,13 @@ na pomalom behu algoritmu \alg{greedysw}.
 \section{Tabuľky}
 
 V tejto časti sa nachádzajú tabuľky zobrazujúce výsledky z testovania 
-algoritmov.
+algoritmov. Ich obsah je podrobnejšie rozobratá v predošlých častiach tejto 
+kapitoly.
 
 \begin{table}[h]
 	\centering
-	\begin{tabular}{lllll}
+	\caption{Výsledky behov algoritmov v jazyku \cpp\ na staršom počítači.}
+	\begin{tabular}{l|rrrr}
 		\hline
 		& naive & greedy & ch7alg33 & ch7alg34OT \\ \hline
 		ba10    & 0     & 0      & 0        & 0          \\
@@ -198,13 +214,20 @@ algoritmov.
 		zly20   &       & 0      & 0        & 0,01       \\
 		zly100  &       & 0,02   & 0,22     & 4,72       \\ \hline
 	\end{tabular}
-	\caption{Výsledky behov algoritmov v jazyku \cpp\ na staršom počítači. Výsledky sú uvedené v sekundách.}
+	\bigskip\par
+	V prvom stĺpci je označenie dát (štatistické vlastnosti dát sú v tabuľke 
+	\ref{table:stats}) a ku prislušným dátam sú uvedené časy behov pre daný 
+	algoritmus (algoritmy sú popísané v kapitole \ref{chap:algoritmy}) v 
+	sekundách. Keď si porovnáme výsledné časy s tabuľkou 
+	\ref{table:java-stare} zistíme, že prepísanie zdrojového kódu do jazyka 
+	\cpp\ neprinieslo výrazné zlepšenie.
 	\label{table:cpp}
 \end{table}
 
 \begin{table}[h]
 	\centering
-	\begin{tabular}{lllllllll}
+	\caption{Testovanie rôznych heuristík na dátach z reálneho sveta.}
+	\begin{tabular}{l|rrrrrrrr}
 		\hline
 		         & ca1 - |S| & ca1 - čas & ca2 - |S| & ca2 - čas & ca22 - |S| & ca22 - čas & ca3 - |S| & ca3 - čas \\ \hline
 		greedy   & 1176      & 0,124     & 2009      & 0,578     & 2275       & 0,330      & 3694      & 1,311     \\
@@ -215,14 +238,19 @@ algoritmov.
 		floweru  & 1329      & 0,111     & 2131      & 0,511     & 2501       & 0,313      & 3920      & 1,196     \\
 		flower   & 1157      & 0,293     & 2018      & 2,406     & 2256       & 0,591      & 3774      & 2,830     \\ \hline
 	\end{tabular}
-	\caption{\emph{Testovanie rôznych heuristík na dátach z reálneho sveta.} %
-		V stĺpci |S| je veľkosť nájdenej množiny. Čas je uvedený v sekundách.}
+	\bigskip\par
+	V prvom stĺpci sú vymenované algoritmy (popísané v kapitole 
+	\ref{chap:algoritmy}) a pre daný algoritmus je uvedená veľkosť výslednej 
+	nájdenej dominujúcej množiny (stĺpec |S|) a čas, za ktorý algoritmus 
+	množinu našiel. Čas je uvedený v sekundách. Štatistické vlastnosti 
+	dát sú v tabuľke \ref{table:stats}.
 	\label{table:real}
 \end{table}
 
 \begin{table}[h]
 	\centering
-	\begin{tabular}{lllllllll}
+	\caption{Výsledky behov algoritmov v jazyku \Java\ na staršom počítači.}
+	\begin{tabular}{l|rrrrrrrr}
 		\hline
 		& naive & greedy & greedyQ & ch7alg33 & ch7alg34OT & ch7alg35OT & fnaive   & fproper \\ \hline
 		ba10    & 0,085 & 0,001  & 0,002   & 0        & 0,003      & 0,004      & 0,008    & 0,009   \\
@@ -248,7 +276,11 @@ algoritmov.
 		zly20   &       & 0,022  & 0,010   & 0,022    & 0,098      & 0,036      & 0,809    & 0,814   \\
 		zly100  &       & 0,090  & 0,151   & 0,210    & 6,213      & 2,107      &          &         \\ \hline
 	\end{tabular}
-	\caption{Výsledky behov algoritmov v jazyku \Java\ na staršom počítači. Výsledky sú uvedené v sekundách.}
+	\smallskip \par
+	V prvom stĺpci je označenie dát (štatistické vlastnosti dát sú v tabuľke 
+	\ref{table:stats}) a ku prislušným dátam sú uvedené časy behov pre daný 
+	algoritmus (algoritmy sú popísané v kapitole \ref{chap:algoritmy}) v 
+	sekundách.
 	\label{table:java-stare}
 \end{table}
 
@@ -256,7 +288,9 @@ algoritmov.
 
 \begin{table}[h]
 	\centering
-	\begin{tabular}{lllllllllllll}
+	\caption{Veľkosti nájdených dominujúcich množín pre daný graf a algoritmus.}
+\scalebox{0.9}{
+		\begin{tabular}{l|rrrrrrrrrrrr}
 		\hline
 		& naive & greedy & greedyQ & ch7alg33 & greedysr & greedysw & floweru & flower & ch7alg34OT & ch7alg35OT & fnaive & fproper \\ \hline
 		ba10    & 2     & 2      & 2       & 2        & 2        & 2        & 2       & 2      & 6          & 6          & 2      & 2       \\
@@ -282,7 +316,18 @@ algoritmov.
 		zly20   &       & 20     & 120     & 120      & 20       & 20       & 20      & 20     & 20         & 20         & 20     & 20      \\
 		zly100  &       & 100    & 2600    & 2600     & 100      & 100      & 100     & 100    & 100        & 100        &        &         \\ \hline
 	\end{tabular}
-	\caption{Veľkosti nájdených dominujúcich množín pre daný graf a algoritmus.}
+}
+	\smallskip \par
+	{\footnotesize 
+	V prvom stĺpci je označenie dát (štatistické vlastnosti dát sú v tabuľke 
+	\ref{table:stats}) a ku prislušným dátam sú uvedené veľkosti nájdených 
+	dominujúcich množín pre daný algoritmus (algoritmy sú popísané v kapitole 
+	\ref{chap:algoritmy}). Za povšimnutie stojí, že 
+	heuristiky určené na siete malého sveta (\alg{greedysw}, \alg{flower}) 
+	nenašli typické črty pri grafoch tvorených Barabási-Albertovým modelom 
+	(a teda nepriniesli zmenšenie výslednej množiny), 	avšak heuristiky sa 
+	prejavili pri reálnych dátach, kde rôzne zmenšili výslednú množinu 
+	(tabuľka \ref{table:real}).}
 	\label{table:size}
 \end{table}
 
@@ -291,7 +336,9 @@ algoritmov.
 \begin{landscape}
 \begin{table}[h]
 	\centering
-	\begin{tabular}{llllllllllll}
+	\caption{Výsledky behov algoritmov v jazyku \Java\ na novšom počítači.}
+\scalebox{0.9}{
+	\begin{tabular}{l|rrrrrrrrrrr}
 		\hline
 		& naive & greedy & greedyQ & ch7alg33 & greedysr & greedysw & floweru & flower & ch7alg34OT & fnaive  & fproper \\ \hline
 		ba10    & 0,010 & 0      & 0       & 0        & 0        & 0        & 0       & 0,001  & 0,001      & 0,001   & 0,001   \\
@@ -317,7 +364,67 @@ algoritmov.
 		zly20   &       & 0      & 0       & 0        & 0        & 0        & 0       & 0,001  & 0,001      & 0,009   & 0,006   \\
 		zly100  &       & 0,027  & 0,016   & 0,037    & 0,003    & 0,100    & 0,011   & 0,088  & 0,662      &         &         \\ \hline
 	\end{tabular}
-	\caption{Výsledky behov algoritmov v jazyku \Java\ na novšom počítači. Výsledky sú uvedené v sekundách.}
+}
+	\smallskip \par
+	{\footnotesize
+	V prvom stĺpci je označenie dát (štatistické vlastnosti dát sú v tabuľke 
+	\ref{table:stats}) a ku prislušným dátam sú uvedené veľkosti nájdených 
+	dominujúcich množín pre daný algoritmus (algoritmy sú popísané v kapitole 
+	\ref{chap:algoritmy}). Oproti tabuľke \ref{table:java-stare} vidno 
+	zrýchlenie vďaka výkonnejšiemu počítaču. V kombinácií s veľkosťou nájdenej 
+	výslednej množiny (tabuľka \ref{table:size}) si môžeme všimnúť, ako čas 
+	pažravých algoritmov závisí od veľkosti nájdenej množiny (algoritmy 
+	\alg{greedy-} a \alg{flower-} a porovnanie \texttt{ba-} oproti \texttt{rnd-} 
+	dátam rovnakej veľkosti).}
 	\label{table:java}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+	\centering
+\begin{table}[h]
+	\centering
+	\caption{Štatistické údaje dát.}
+\scalebox{0.9}{
+		\begin{tabular}{l|rrrrrrr}
+		\hline
+		& počet vrcholov & počet hrán & priemerný stupeň & hustota & priemerný klasterizačný koeficient & priemer & priemerná najkratšia cesta \\ \hline
+		ba10    & 10             & 20         & 4                & 0,444   & 0,673                              & 3       & 1,667                      \\
+		ba18    & 18             & 41         & 4,556            & 0,268   & 0,421                              & 4       & 1,948                      \\
+		ba20    & 20             & 46         & 4,6              & 0,242   & 0,412                              & 4       & 2,016                      \\
+		ba100   & 100            & 279        & 5,58             & 0,056   & 0,167                              & 5       & 2,622                      \\
+		ba200   & 200            & 574        & 5,74             & 0,029   & 0,088                              & 5       & 2,909                      \\
+		ba1000  & 1000           & 2964       & 5,928            & 0,005   & 0,028                              & 6       & 3,534                      \\
+		ba2000  & 2000           & 5962       & 5,962            & 0,003   & 0,019                              & 6       & 3,766                      \\
+		ba10k   & 10000          & 29950      & 5,99             & 0,006   & 0,006                              & 7       & 4,306                      \\
+		ba20k   & 20000          & 59943      & 5,994            & 0,0003  & 0,003                              & 7       & 4,53                       \\
+		ba100k  & 100000         & 299921     & 5,998            & 0,00006 & 0,0008                             & 8       & 5,039                      \\
+		rnd10   & 10             & 30         & 6                & 0,667   & 0,742                              & 3       & 1,356                      \\
+		rnd15   & 15             & 45         & 6                & 0,429   & 0,417                              & 3       & 1,59                       \\
+		rnd20   & 20             & 60         & 6                & 0,316   & 0,262                              & 3       & 1,732                      \\
+		rnd100  & 100            & 301        & 6,02             & 0,061   & 0,053                              & 5       & 2,746                      \\
+		rnd200  & 200            & 601        & 6,01             & 0,03    & 0,033                              & 6       & 3,142                      \\
+		rnd1000 & 1000           & 3000       & 6                & 0,006   & 0,006                              & 8       & 4,059                      \\
+		rnd2000 & 2000           & 6042       & 6,042            & 0,003   & 0,003                              & 8       & 4,421                      \\
+		rnd10k  & 10000          & 30000      & 6                & 0,006   & 0,0006                             & 11      & 5,351                      \\
+		rnd20k  & 20000          & 60036      & 6,004            & 0,0003  & 0,0003                             & 11      & 5,73                       \\
+		zly10   & 76             & 75         &                  &         &                                    &         &                            \\
+		zly20   & 251            & 250        &                  &         &                                    &         &                            \\
+		zly100  & 5251           & 5250       &                  &         &                                    &         &                            \\
+		ca1     & 5242           & 28980      & 11,057           &         &                                    & 17      & 6,047                      \\
+		ca2     & 12008          & 237010     & 39,475           &         & 0,696                              & 13      & 2,622                      \\
+		ca22    & 9877           & 51971      & 10,524           &         &                                    & 18      & 5,945                      \\
+		ca3     & 23133          & 186936     & 16,162           &         & 0,65                               & 15      &                            \\ \hline
+	\end{tabular}
+	}
+	\smallskip\par
+	{\footnotesize V tejto tabuľke sú uvedené základné štatistické údaje dát, 
+		s ktorými sme pracovali. V prvom stĺpci je názov dát. Predpona 
+		\texttt{ba-} patrí grafom podľa Barabási-Albertoveho modelu, predponou 
+		\texttt{rnd-} sú označené grafy vytvorené náhodným modelom, predponou 
+		\texttt{zly-} sú označené grafy vytvorené podľa obrázka \ref{img:zle1} 
+		a predponu \texttt{ca-} majú reálne dáta (vo všetkých prípadoch je to 
+		sieť vedeckých publikácií). Dáta sú popísané aj v časti \ref{sec:data}.}
+	\label{table:stats}
 \end{table}
 \end{landscape}
