@@ -70,13 +70,28 @@ označený ako \alg{ch7alg35} (podobne \alg{ch7alg35OT} pre jednovláknovú verz
 \subsection{Pažravé algoritmy}
 
 Keďže jedným z hlavných cieľov práce bolo spraviť dobrú heuristiku na pažravý 
-algoritmus, tak boli tieto algoritmy implmentované vo viacerých verziách. Okrem 
+algoritmus, tak boli tieto algoritmy implementované vo viacerých verziách. Okrem 
 rôznych heuristík ide aj o spôsob vyberania vrcholov. Počas behu algoritmu sú 
 niektoré vrcholy vybraté do medzivýsledku, niektoré pokryté a niektoré 
 nevybraté a nepokryté. Tie vrcholy, ktoré sú nevybraté a nepokryté sú 
 označované aj ako \emph{biele}, tie ktoré nie sú vybraté, ale sú pokryté sú 
 označované ako \emph{šedé} a tie, ktoré sú vybraté sú označované ako 
-\emph{čierne}. 
+\emph{čierne}. Na obrázku \ref{img:imp:colors} je znázornené ofarbenie grafu 
+po prvom kroku pažravého algoritmu.
+
+\begin{figure}
+	\centering
+	\greybox{%
+		\includegraphics[scale=0.6]{obrazky/colors}%
+	}
+	\caption{\emph{Príklad prvého kroku pažravého algoritmu.} 
+	Vrcholy v grafe majú veľkosť úmernú stupňu (čím väčší stupeň, tým väčší 
+	priemer vrchola). V prvom kroku si algoritmus mohol vybrať vrchol 2, čím ho 
+	označil ako čierny a jeho susedov (tým dominuje) označil šedou farbou. 
+	Bielou sú označené vrcholy, ktoré ešte nie sú dominované čiernymi.}
+	\label{img:imp:colors}
+\end{figure}
+
 
 Podľa algoritmu, ktorý je uvedený v časti \ref{sec:greedy} sme implementovali 
 algoritmus, ktorý sme označili \alg{greedy}. Podobne sme implementovali aj 
@@ -137,6 +152,6 @@ grafov.
 
 Aj keď medzi analyzovanými existujúcimi riešeniami je veľa grafových knižníc, 
 pripadalo nám jednoduchšie a efektívnejšie implementovať vlastnú reprezentáciu 
-grafov pomocou základných prvkov jazyka \Java a knižnice HPPC.
+grafov pomocou základných prvkov jazyka \Java\ a knižnice HPPC.
 
 

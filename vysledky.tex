@@ -13,7 +13,7 @@ Bohužiaľ počítač
 nebol vhodný na viacvláknové algoritmy, čo spôsobovalo problémy pre algoritmy 
 \alg{ch7alg34} a \alg{ch7alg35}. Preto sme sa zamerali na ich jednovláknové 
 verzie (\alg{ch7alg34OT}, respektíve \alg{ch7alg35OT}). Heuristiky na pažravý 
-algoritmus sa doimplementovali neskôr, preto sa neuvádzajú v starších testoch.
+algoritmus sa implementovali neskôr, preto sa neuvádzajú v starších testoch.
 
 Počas vývoja začal byť dostupný novší počítač, na ktorom sa testovali už všetky 
 heuristiky pre pažravý algoritmus. Počítač má procesor Intel Core i5-4690K CPU 
@@ -29,7 +29,7 @@ zachované v žiadnej z uvedených tabuliek.
 
 Zo začiatku implementácie nebolo jasné, ktorý programovací jazyk bude použitý. 
 Ako prvý sa zvolil jazyk \Java. Keďže prevláda povedomie, že interpretovaný 
-programovací jazyk (\Java) nemôže byť rýchlejší ako kopmilovaný programovací 
+programovací jazyk (\Java) nemôže byť rýchlejší ako kompilovaný programovací 
 jazyk (\cpp), tak sme sa v priebehu implementácie rozhodli, že skúsime 
 naprogramovať niektoré algoritmy aj v jazyku \cpp. Ako vidno z porovnania časov 
 behov jednotlivých algoritmov v tabuľkách \ref{table:cpp} a 
@@ -125,7 +125,7 @@ dátach so štruktúrou (\texttt{ba-} a \texttt{zle-} grafy).
 Skôr ako sa pozrieme na celkové hodnotenie, tak sa môžeme pozrieť na algoritmy 
 \alg{ch7alg34OT} a \alg{ch7alg35OT}. V tabuľke \ref{table:java-stare} je vidno, 
 žo algoritmus \alg{ch7alg35OT} naozaj rieši uvedené problémy v časti 
-\ref{sec:dist}. Škoda, že sa nepodarilo vytvoriť prostredie pre distribuovaný 
+\ref{sec:dist}. Bohužiaľ, nepodarilo sa vytvoriť prostredie pre distribuovaný 
 algoritmus.
 
 Celkovo si môžeme všimnúť (tabuľka \ref{table:java}), že algoritmy bežia 
@@ -136,7 +136,7 @@ algoritmu \alg{ch7alg33OT}, ktorý beží lepšie na neštruktúrovaných dátac
 Keďže štruktúrované aj neštruktúrované dáta majú pomerne rovnakú hustotu hrán, 
 tak sme neporovnávali algoritmy na rôzne hustých grafoch.
 
-\subsection{Porovnanie hauristík pažravých algoritmov}
+\subsection{Porovnanie heuristík pažravých algoritmov}
 
 Zatiaľ sme sa pozerali čisto iba na časy. No pri porovnávaní reálnych časov 
 pažravých algoritmov nám o rýchlosti veľa prezradí aj veľkosť výslednej 
@@ -148,7 +148,7 @@ To znamená, že sa základný cyklus musel zopakovať oveľa viac krát, čo vy
 do horšieho času algoritmu. Keďže všetky verzie pažravého algoritmu až na 
 verziu \alg{flower} mali na začiatku behu algoritmu (pred opakujúcim sa cyklom) 
 takmer nulové predpočítavanie rôznych hodnôt, respektíve vyberanie vrcholov do 
-výsledku, Tak je tento trend badať na všetkých algoritmoch. 
+výsledku, tak je tento trend badať na všetkých algoritmoch. 
 
 Algoritmus \alg{flower} je v tomto smere výnimkou. Keďže si predpočítava 
 susednosť do vzdialenosti tri a grafy tvorené Barabási-Albertovým modelom sú 
@@ -178,8 +178,14 @@ Najjednoduchší pažravý algoritmus (\alg{greedy}) dáva
 prekvapivo veľmi dobré výsledky. Je prekonaný iba algoritmom \alg{greedysw}, 
 ktorý je rozšírením jednoduchého pažravého algoritmu iba o vhodný spôsob 
 výberu vrchola. Najzložitejší, algoritmus \alg{flower}, síce našiel najmenšiu 
-dominújúcu množinu spomedzi testovaných algoritmov na dvoch grafoch 
-(\texttt{ca1} a \texttt{ca22}), ale mal horšie časy. 
+dominujúcu množinu spomedzi testovaných algoritmov na dvoch grafoch 
+(\texttt{ca1} a \texttt{ca22}), ale mal horšie časy. Predpokladom bolo, že 
+tento algoritmus bude nachádzať najmenšie dominujúce množiny, pretože má 
+najsofistikovanejšie vnútorné rozhodovanie spomedzi všetkých implementovaných 
+pažravých algoritmov. Bohužiaľ, niektoré dáta majú štruktúru, pri ktorej sa 
+neoplatí najprv vyberať výhonky. Predpokladom je, že v týchto dátach sú 
+výhonky napojené na väčšie klastre alebo kvety a pri vybratí výhonku sa odsunie 
+vybratie oveľa výhodnejšieho vrchola na neskôr.
 
 Grafy \texttt{ca22} a \texttt{ca3} sú hustejšie ako ostatné, čo sa prejavilo aj 
 na pomalom behu algoritmu \alg{greedysw}.
@@ -216,7 +222,7 @@ kapitoly.
 	\end{tabular}
 	\bigskip\par
 	V prvom stĺpci je označenie dát (štatistické vlastnosti dát sú v tabuľke 
-	\ref{table:stats}) a ku prislušným dátam sú uvedené časy behov pre daný 
+	\ref{table:stats}) a ku príslušným dátam sú uvedené časy behov pre daný 
 	algoritmus (algoritmy sú popísané v kapitole \ref{chap:algoritmy}) v 
 	sekundách. Keď si porovnáme výsledné časy s tabuľkou 
 	\ref{table:java-stare} zistíme, že prepísanie zdrojového kódu do jazyka 
@@ -240,10 +246,10 @@ kapitoly.
 	\end{tabular}
 	\bigskip\par
 	V prvom stĺpci sú vymenované algoritmy (popísané v kapitole 
-	\ref{chap:algoritmy}) a pre daný algoritmus je uvedená veľkosť výslednej 
-	nájdenej dominujúcej množiny (stĺpec |S|) a čas, za ktorý algoritmus 
-	množinu našiel. Čas je uvedený v sekundách. Štatistické vlastnosti 
-	dát sú v tabuľke \ref{table:stats}.
+	\ref{chap:algoritmy}). Pre daný algoritmus je v ďalších stĺpcoch uvedená 
+	veľkosť výslednej nájdenej dominujúcej množiny (stĺpec |S|) a vedľa nej 
+	čas, za ktorý algoritmus množinu našiel. Čas je uvedený v sekundách. 
+	Štatistické vlastnosti dát sú v tabuľke \ref{table:stats}.
 	\label{table:real}
 \end{table}
 
@@ -278,7 +284,7 @@ kapitoly.
 	\end{tabular}
 	\smallskip \par
 	V prvom stĺpci je označenie dát (štatistické vlastnosti dát sú v tabuľke 
-	\ref{table:stats}) a ku prislušným dátam sú uvedené časy behov pre daný 
+	\ref{table:stats}) a ku príslušným dátam sú uvedené časy behov pre daný 
 	algoritmus (algoritmy sú popísané v kapitole \ref{chap:algoritmy}) v 
 	sekundách.
 	\label{table:java-stare}
@@ -320,7 +326,7 @@ kapitoly.
 	\smallskip \par
 	{\footnotesize 
 	V prvom stĺpci je označenie dát (štatistické vlastnosti dát sú v tabuľke 
-	\ref{table:stats}) a ku prislušným dátam sú uvedené veľkosti nájdených 
+	\ref{table:stats}) a ku príslušným dátam sú uvedené veľkosti nájdených 
 	dominujúcich množín pre daný algoritmus (algoritmy sú popísané v kapitole 
 	\ref{chap:algoritmy}). Za povšimnutie stojí, že 
 	heuristiky určené na siete malého sveta (\alg{greedysw}, \alg{flower}) 
@@ -368,7 +374,7 @@ kapitoly.
 	\smallskip \par
 	{\footnotesize
 	V prvom stĺpci je označenie dát (štatistické vlastnosti dát sú v tabuľke 
-	\ref{table:stats}) a ku prislušným dátam sú uvedené veľkosti nájdených 
+	\ref{table:stats}) a ku príslušným dátam sú uvedené veľkosti nájdených 
 	dominujúcich množín pre daný algoritmus (algoritmy sú popísané v kapitole 
 	\ref{chap:algoritmy}). Oproti tabuľke \ref{table:java-stare} vidno 
 	zrýchlenie vďaka výkonnejšiemu počítaču. V kombinácií s veľkosťou nájdenej 

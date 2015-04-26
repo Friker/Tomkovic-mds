@@ -152,8 +152,6 @@ Implementované algoritmy by mali zahŕňať:
 	\item pažravý algoritmus s rôznymi heuristikami;
 \end{itemize}
 
-%\todo{Čo má softvér robiť z hladiska funkčnosti.}
-
 \subsection{Prevádzkové požiadavky}
 
 Keďže ide o softvér, ktorý medzi sebou porovnáva jednotlivé algoritmy 
@@ -161,8 +159,6 @@ relatívne, tak nepotrebuje špecifický operačný systém. Výkon algoritmov j
 priamo úmerný od hardvéru. To al neznamená, že by hardvér mal byť nejako 
 špecifický. Keďže sa súčasné architektúry z nášho pohľadu veľmi nelíšia, 
 nekladieme po tejto stránke žiadne požiadavky.
-
-%\todo{Čo má softvér robiť z hladiska hardvéru.}
 
 % \todo{
 % Východiskom tejto etapy je etapa analýzy. 
@@ -185,8 +181,6 @@ formát vstupu, spraviť z neho graf, vykonať na ňom zvolený algoritmus. Tak�
 bude obsahovať moduly na spracovanie týchto požiadaviek. V následujúcich 
 častiach popisujeme požiadavky kladené na náš softvér.
 
-%\todo{Stručný opis, čo chceme dosiahnuť.}
-
 % vzťahy medzi časťami softvéru, 
 %štruktúru dát a rozhranie systému.
 
@@ -196,8 +190,6 @@ Softvér nevyžaduje žiaden špecifické technické veci. Vstupné a výstupné
 môžu prúdiť cez štandardný systémový vstup a výstup. V prípade lepšej práce 
 môžu byť použité knižnice na prácu s nejakými dátovými štruktúrami.
 
-%\todo{Self-descripting}
-
 \subsection{Používateľské požiadavky}
 
 Používateľmi tejto aplikácie sú najmä ľudia, ktorí chcú porovnať jednotlivé 
@@ -206,8 +198,6 @@ algoritmy. Teda stačí, aby bolo poskytnuté dobré vstupno-výstupné prostred
 Ak chceme porovnávať medzi sebou rôzne algoritmy na nejakom grafe, alebo ak 
 chceme porovnávať jeden algoritmus na rôznych grafoch je dobré mať aj 
 prostredie pre dávkové úlohy.
-
-%\todo{Self-descripting}
 
 \subsection{Použité technológie}
 
@@ -219,12 +209,6 @@ jazyk \Java .
 \Java\ poskytuje aj implementáciu základných dátových štruktúr. Avšak túto možno 
 zameniť s nejakými inými externými knižnicami. Na implementáciu rôznych 
 algoritmov na tom istom základe je vhodné použiť návrhový vzor \emph{strategy}.
-
-%Keďže projekt bol pokračovaním predošlej práce za hlavný programovací jazyk 
-%bola zvolená \Java. Na grafické znázornenie sú to jednotlivé triedy balíkov 
-%AWT a Swing. Na generovanie náhodných reťazcov sme použili špeciálne upravenú 
-%triedu s návrhovým vzorom \emph{singleton}. Vďaka celkovej nenáročnosti na 
-%technológie a zameraniu projektu nebolo potrebné použiť viac technológií.
 
 \subsection{Rozhranie aplikácie}
 
@@ -246,18 +230,6 @@ Pre dávkový proces je vstupom textový súbor, ktorý obsahuje riadky. V každ
 riadku je argument pre jeden beh aplikácie. Aplikácia sa spúšťajú za sebou, 
 následujúca až vtedy, keď sa predošlá dokončí.
 
-
-%\todo{Vstup/výstup -- aj pre jednotlivé časti softvéru}
-
-%Rozhranie vizualizácií bolo podobné ako všetkých iných štruktúr 
-%implementovaných v~predošlej verzií softvéru. Vstupné dáta boli zadávané do 
-%vstupného textového poľa, alebo klikaním myšou. Podľa stlačeného tlačidla sa 
-%spustil daný proces. Výstupne údaje boli prezentované vo vykresľovacom okne 
-%pre dátovú štruktúru a vo výpise pre komentáre. Vykreslená štruktúra sa dala 
-%zväčšiť, zmenšiť a posunúť pomocou myšky.
-
-%Pre každú dátovu štruktúru bolo potrebné zabezpečiť vstupné textové pole, 
-%prípadne dodatočné vstupné metódy a tlačidlá pre všetky operácie.
 
 % \todo{
 % V tejto etape sa ujasňuje koncepcia systému. 

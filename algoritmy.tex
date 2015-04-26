@@ -47,7 +47,7 @@ pre ktorú platí, že $\bigcup_{C \in \mathcal{C}} C = \mathcal{U}$.
 
 \section{Požiadavky na algoritmy}
 
-Táto práca ma za úlohu nájsť vhodný algorimus na hľadanie minimálnej 
+Táto práca ma za úlohu nájsť vhodný algoritmus na hľadanie minimálnej 
 dominujúcej množiny. Ale pre reálne dáta. To znamená, že grafy, na ktorých 
 budeme minimálnu dominujúcu množinu hľadať majú veľa vrcholov. Avšak problém 
 nájdenia minimálnej dominujúcej množiny na grafe sa dá redukovať na problém 
@@ -250,10 +250,10 @@ je množina hrán $M$ taká, že hrany nemajú spoločný ani jeden vrchol.
 Z inštancie problému množinového pokrytia $(\mathcal{S}, \mathcal{U})$, kde 
 $|S| = 2, S \in \mathcal{S}$, vieme spraviť graf $G^\prime = (V, E)$ tak, 
 že množinou vrcholov bude množina univerza, čiže $V = \mathcal{U}$ a množinu 
-hrán $E$ budú tvoriť podmnožiny $S \in \mathcal{U}$. Minimálnu dominujúcu 
+hrán $E$ budú tvoriť podmnožiny $S \in \mathcal{U}$. Minimálnu dominujúcu 
 množinu na grafe reprezentovanú dvojicou $(\mathcal{S}, \mathcal{U})$ vieme 
 určiť pomocou minimálneho hranového pokrytia na grafe $G^\prime$. 
-Minimálne hranové pokrytie zase vieme získať pomocou maximáneho párenia. 
+Minimálne hranové pokrytie zase vieme získať pomocou maximálneho párenia. 
 Keďže hranám v grafe $G^\prime$ zodpovedá práve jedna podmnožina 
 $S \in \mathcal{S}$ v dvojici $(\mathcal{S}, \mathcal{U})$, tak vieme určiť 
 maximálne množinové pokrytie.
@@ -315,7 +315,7 @@ Algoritmus vyzerá následovne:
 \end{enumerate}
 
 Za zmienku stojí, že v bode 3 algoritmus musí určiť, či výsledná množina už 
-pokrýva všetky vrcholy. Toto z tohto algoritmu a jeho variatov robí algoritmy, 
+pokrýva všetky vrcholy. Toto z tohto algoritmu a jeho variantov robí algoritmy, 
 ktoré sú zložité najmenej kvadraticky od počtu vrcholov.
 
 Ako aj pri algoritmoch s exaktnými výsledkami, aj tu môžeme použiť nejaké 
@@ -469,7 +469,7 @@ môže trochu korigovať "slepé" vyberanie vrcholov s väčšími stupňami.
 Vyššie uvedené heuristiky ide rôzne kombinovať a rôzne použiť. Na tomto mieste 
 uvedieme algoritmus, ktorý skombinuje všetky pravidlá. Pre odstraňovanie 
 výhonkov a odstraňovanie kvetín platí, že sa vykonajú iba raz -- na začiatku 
-algoritmu. Po odstránení sa spustí greedy algoritmus, ktorý vhodného kandidáta 
+algoritmu. Po odstránení sa spustí pažravý algoritmus, ktorý vhodného kandidáta 
 vyberie na základe pokrytia vrcholu a odstraňovania najvplyvnejších vrcholov.
 
 Algoritmus vyzerá následovne:
