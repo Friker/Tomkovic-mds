@@ -179,7 +179,9 @@ prekvapivo veľmi dobré výsledky. Je prekonaný iba algoritmom \alg{greedysw},
 ktorý je rozšírením jednoduchého pažravého algoritmu iba o vhodný spôsob 
 výberu vrchola. Najzložitejší, algoritmus \alg{flower}, síce našiel najmenšiu 
 dominujúcu množinu spomedzi testovaných algoritmov na dvoch grafoch 
-(\texttt{ca1} a \texttt{ca22}), ale mal horšie časy. Predpokladom bolo, že 
+(\texttt{ca1} a \texttt{ca22}), ale mal horšie časy. 
+
+Predpokladom bolo, že 
 tento algoritmus bude nachádzať najmenšie dominujúce množiny, pretože má 
 najsofistikovanejšie vnútorné rozhodovanie spomedzi všetkých implementovaných 
 pažravých algoritmov. Bohužiaľ, niektoré dáta majú štruktúru, pri ktorej sa 
@@ -187,14 +189,29 @@ neoplatí najprv vyberať výhonky. Predpokladom je, že v týchto dátach sú
 výhonky napojené na väčšie klastre alebo kvety a pri vybratí výhonku sa odsunie 
 vybratie oveľa výhodnejšieho vrchola na neskôr.
 
-Grafy \texttt{ca22} a \texttt{ca3} sú hustejšie ako ostatné, čo sa prejavilo aj 
-na pomalom behu algoritmu \alg{greedysw}.
+Na dátach s vyšším priemerným stupňom (\texttt{ca2} a \texttt{ca3}) 
+algoritmus \alg{flower} preukázal horšie výsledky ako jednoduchý pažravý 
+algoritmus (\alg{flower}). Vyšší priemerný stupeň mení vnútornú štruktúru 
+grafu, vrcholy sú viac prepojené a je možné, že určovanie kvetov, v hustejšie 
+prepojených štruktúrach nie je až tak účinné.
+
+Väčšia hustota grafov \texttt{ca2} a \texttt{ca3} sa prejavila aj v pomalšom 
+behu algoritmu \alg{greedysw}, keďže tento robí po každom kroku viac prepočtov 
+dátových štruktúr. Tento algoritmus nepredpočítava kvety, čo vytvára vzájomnú 
+odlišnosť s algoritmom \alg{flower}. Z výsledkov vidno, že na niektorých dátach 
+sa oplatí kvety predrátať, na niektorých nie.
 
 \section{Tabuľky}
 
 V tejto časti sa nachádzajú tabuľky zobrazujúce výsledky z testovania 
 algoritmov. Ich obsah je podrobnejšie rozobratá v predošlých častiach tejto 
-kapitoly.
+kapitoly. Sú tu uvedené tabuľky rýchlosti behov na staršom počítači v jazyku 
+\cpp\ a \Java\ (tabuľky \ref{table:cpp} a \ref{table:java-stare}), výsledky 
+rýchlosti behov na novšom počítači v jazyku \Java\ (tabuľka \ref{table:java}). 
+V tabuľke \ref{table:size} sú uvedené veľkosti výsledných nájdených množín.
+Taktiež sú tu uvedené výsledky testovania algoritmov na reálnych dátach 
+(tabuľka \ref{table:real}) a štatistické údaje o dátach (tabuľka 
+\ref{table:stats}).
 
 \begin{table}[h]
 	\centering
